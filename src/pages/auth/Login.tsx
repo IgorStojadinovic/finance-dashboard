@@ -13,7 +13,7 @@ type Data = {
 
 const Login = () => {
     const notify = () => {
-        toast('Hey there!.', {
+        toast('Hey!', {
             duration: 4000,
             icon: '👋',
             style: {
@@ -22,7 +22,7 @@ const Login = () => {
             },
         });
         toast(
-            'This is currently in development, you can login wihout account!',
+            'Site is currently in development, you can login wihout account.',
             {
                 style: {
                     background: '#201F24',
