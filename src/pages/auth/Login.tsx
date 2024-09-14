@@ -22,7 +22,7 @@ const Login = () => {
             },
         });
         toast(
-            'Site is currently in development, you can login wihout account.',
+            'Site is currently in development, you can login without account.',
             {
                 style: {
                     background: '#201F24',
