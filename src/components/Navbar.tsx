@@ -315,7 +315,11 @@ const Navbar = () => {
                     </svg>
                     <span
                         className={clsx(
-                            'text-preset-3 text-grey-300 group-hover:text-grey-900',
+                            {
+                                'text-preset-3 text-grey-300 group-hover:text-grey-900 transition-all delay-100':
+                                    !toggle,
+                            },
+
                             {
                                 hidden: toggle,
                             }
