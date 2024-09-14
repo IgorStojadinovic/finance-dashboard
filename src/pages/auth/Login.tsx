@@ -27,6 +27,7 @@ const Login = () => {
             }));
         }
     };
+    console.log(data);
 
     const togglePasswordView = () => {
         if (type === 'password') {

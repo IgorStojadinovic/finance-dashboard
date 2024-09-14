@@ -37,6 +37,7 @@ const Signup = () => {
             setType('password');
         }
     };
+    console.log(data);
 
     return (
         <div className='bg-beige-100 flex flex-col h-svh xl:flex-row'>
