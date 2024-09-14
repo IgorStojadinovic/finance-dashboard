@@ -1,7 +1,14 @@
 import { Link } from 'react-router-dom';
 import Logo from '../assets/images/Logo.svg';
+import { useState } from 'react';
+import { clsx } from 'clsx';
 
 const Navbar = () => {
+    const [toggle, setToggle] = useState(false);
+    const toggleMenu = () => {
+        setToggle((prev) => !prev);
+        console.log('toggle');
+    };
     const mobileNav = (
         <nav className='bg-grey-900 px-10 pt-2 rounded-t-lg '>
             <ul className='flex justify-between'>
@@ -125,16 +132,45 @@ const Navbar = () => {
     );
 
     const desktopNav = (
-        <nav className='bg-grey-900 flex flex-col w-[300px]  rounded-r-3xl gap-5 h-full'>
-            <div className='py-8 px-10'>
-                <h1 className='text-white'>Desktop</h1>
+        <nav
+            className={clsx(
+                'bg-grey-900 flex flex-col w-[300px]  rounded-r-3xl gap-5 h-full transition-all ease-in-out duration-300',
+                {
+                    'bg-grey-900 flex flex-col rounded-r-3xl w-[80px] gap-5 h-full transition-all ease-in-out duration-300':
+                        toggle,
+                }
+            )}
+        >
+            <div
+                className={clsx(
+                    {
+                        'py-8 px-10 translate-x-0 opacity-1 delay-100  transition-all ease-in-out ':
+                            !toggle,
+                    },
+                    {
+                        'py-8 px-10 -translate-x-80 transition-all ease-in-out opacity-0 ':
+                            toggle,
+                    }
+                )}
+            >
                 <img
                     src={Logo}
                     className='h-6'
                 />
             </div>
             <div className='flex flex-col justify-between flex-1 gap-6 '>
-                <ul className='flex flex-col gap-1 '>
+                <ul
+                    className={clsx(
+                        {
+                            'flex flex-col gap-1 translate-x-0 opacity-1 delay-100  transition-all ease-in-out ':
+                                !toggle,
+                        },
+                        {
+                            '-translate-x-80 transition-all ease-in-out opacity-0 ':
+                                toggle,
+                        }
+                    )}
+                >
                     <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start px-8 py-4 gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
                         <Link
                             to='/'
@@ -251,7 +287,19 @@ const Navbar = () => {
                         </span>
                     </li>
                 </ul>
-                <div className='flex items-center  w-[85%]  h-10 rounded-r-lg gap-4 py-2 px-10 mb-28 hover:bg-white border-l-4  border-l-grey-900 hover:border-l-green group  transition-all ease-in-out duration-200'>
+                <div
+                    className={clsx(
+                        {
+                            'flex items-center  w-[85%]  h-10 rounded-r-lg gap-4 py-2 px-10 mb-28 hover:bg-white border-l-4  border-l-grey-900 hover:border-l-green group  transition-all ease-in-out duration-75':
+                                !toggle,
+                        },
+                        {
+                            'flex items-center  w-[85%]  h-10 rounded-r-lg gap-4  mb-28 hover:bg-white border-l-4  border-l-grey-900 hover:border-l-green group  transition-all ease-in-out duration-75':
+                                toggle,
+                        }
+                    )}
+                    onClick={toggleMenu}
+                >
                     <svg
                         fill='none'
                         height='20'
@@ -265,8 +313,15 @@ const Navbar = () => {
                             className='group-hover:fill-green '
                         />
                     </svg>
-                    <span className='text-preset-3 text-grey-300 group-hover:text-grey-900'>
-                        Minimize menu
+                    <span
+                        className={clsx(
+                            'text-preset-3 text-grey-300 group-hover:text-grey-900',
+                            {
+                                hidden: toggle,
+                            }
+                        )}
+                    >
+                        Minimize
                     </span>
                 </div>
             </div>
