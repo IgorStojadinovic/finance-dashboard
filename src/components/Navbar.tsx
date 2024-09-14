@@ -174,7 +174,7 @@ const Navbar = () => {
                 >
                     <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start px-8 py-4 gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
                         <Link
-                            to='/'
+                            to='/overviews'
                             className='flex items-center gap-4'
                         >
                             <svg
@@ -321,7 +321,7 @@ const Navbar = () => {
                         <span
                             className={clsx(
                                 {
-                                    'text-preset-3 text-grey-300 group-hover:text-grey-900 transition-all ':
+                                    'flex text-preset-3 text-grey-300 group-hover:text-grey-900 transition-all ':
                                         !toggle,
                                 },
 
@@ -335,14 +335,23 @@ const Navbar = () => {
                     </div>
 
                     <Link
-                        to='/login'
-                        className=' group flex items-center  w-[85%]  h-10 rounded-r-lg gap-4 py-2 px-10 mb-20  hover:bg-white border-l-4  border-l-grey-900 hover:border-l-green  text-preset-3 text-grey-300 hover:text-grey-900 transition-all'
+                        to='/'
+                        className={clsx(
+                            {
+                                ' group flex items-center  w-[85%]  h-10 rounded-r-lg gap-4 py-2 px-10 mb-20  hover:bg-white border-l-4  border-l-grey-900 hover:border-l-green  text-preset-3 text-grey-300 hover:text-grey-900 transition-all':
+                                    !toggle,
+                            },
+                            {
+                                '-translate-x-80 group flex items-center  w-[85%]  h-10 rounded-r-lg gap-4 py-2 px-10 mb-20  hover:bg-white border-l-4  border-l-grey-900 hover:border-l-green  text-preset-3 text-grey-300 hover:text-grey-900 transition-all':
+                                    toggle,
+                            }
+                        )}
                     >
                         <BsFillCircleFill
                             size={20}
                             className='group-hover:text-green'
                         />{' '}
-                        Logout
+                        <span>Logout</span>
                     </Link>
                 </div>
             </div>

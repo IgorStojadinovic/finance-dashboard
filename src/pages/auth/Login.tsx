@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Logo from '../../assets/images/Logo.svg';
 import { Link } from 'react-router-dom';
 import HidePasswordIcon from '../../assets/images/icon-hide-password.svg';
 import ShowPasswordIcon from '../../assets/images/eye-open.svg';
 import AuthIllustration from '../../assets/images/illustration-authentication.svg';
+import toast, { Toaster } from 'react-hot-toast';
 
 type Data = {
     email: string;
@@ -11,6 +12,29 @@ type Data = {
 };
 
 const Login = () => {
+    const notify = () => {
+        toast('Hey there!.', {
+            duration: 4000,
+            icon: '👋',
+            style: {
+                background: '#201F24',
+                color: '#fff',
+            },
+        });
+        toast(
+            'This is currently in development, you can login wihout account!',
+            {
+                style: {
+                    background: '#201F24',
+                    color: '#fff',
+                },
+            }
+        );
+    };
+
+    useEffect(() => {
+        notify();
+    }, []);
     const [data, setData] = useState<Data>({
         email: '',
         password: '',
@@ -111,7 +135,12 @@ const Login = () => {
                         </div>
                     </div>
 
-                    <a className='btn-dark'>Login</a>
+                    <Link
+                        className='btn-dark'
+                        to='/overview'
+                    >
+                        Login
+                    </Link>
                     <div className='flex gap-2 items-center justify-center'>
                         <p>Need to create an account?</p>
                         <Link
@@ -123,6 +152,13 @@ const Login = () => {
                     </div>
                 </div>
             </form>
+
+            <div>
+                <Toaster
+                    position='bottom-right'
+                    reverseOrder={false}
+                />
+            </div>
         </div>
     );
 };

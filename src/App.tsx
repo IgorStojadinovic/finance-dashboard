@@ -9,7 +9,7 @@ import RecurringBills from './pages/RecurringBills';
 
 const router = createBrowserRouter([
     {
-        path: '/login',
+        path: '/',
         element: <Login />,
     },
     {
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
         element: <Signup />,
     },
     {
-        path: '/',
+        path: '/overview',
         element: <Home />,
     },
     {
