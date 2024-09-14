@@ -168,7 +168,9 @@ const Home = () => {
                                         alt='profile-image'
                                         className='rounded-full h-8 mr-3 md:h-10'
                                     />
-                                    <h3 className='flex-1'>Emma Richardson</h3>
+                                    <h3 className='flex-1'>
+                                        Savory Bites Bristo
+                                    </h3>
                                     <div className='flex flex-col items-end'>
                                         <span className='text-preset-4-bold text-green mb-2'>
                                             +$75.50
@@ -185,7 +187,7 @@ const Home = () => {
                                         alt='profile-image'
                                         className='rounded-full h-8 mr-3 md:h-10'
                                     />
-                                    <h3 className='flex-1'>Emma Richardson</h3>
+                                    <h3 className='flex-1'>Daniel Carter</h3>
                                     <div className='flex flex-col items-end'>
                                         <span className='text-preset-4-bold text-green mb-2'>
                                             +$75.50
@@ -202,7 +204,7 @@ const Home = () => {
                                         alt='profile-image'
                                         className='rounded-full h-8 mr-3 md:h-10'
                                     />
-                                    <h3 className='flex-1'>Emma Richardson</h3>
+                                    <h3 className='flex-1'>Sam Park</h3>
                                     <div className='flex flex-col items-end'>
                                         <span className='text-preset-4-bold text-green mb-2'>
                                             +$75.50
@@ -219,7 +221,9 @@ const Home = () => {
                                         alt='profile-image'
                                         className='rounded-full h-8 mr-3 md:h-10'
                                     />
-                                    <h3 className='flex-1'>Emma Richardson</h3>
+                                    <h3 className='flex-1'>
+                                        Urban Service Hub
+                                    </h3>
                                     <div className='flex flex-col items-end'>
                                         <span className='text-preset-4-bold text-green mb-2'>
                                             +$75.50
