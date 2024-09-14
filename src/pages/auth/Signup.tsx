@@ -66,7 +66,7 @@ const Signup = () => {
             </div>
             <form className='flex flex-col justify-center flex-1'>
                 <div className='bg-white flex flex-col gap-8 mx-4 px-5 py-6  justify-center rounded-lg md:mx-[6.5rem] md:px-8 md:py-8  xl:mx-[8.75rem] 2xl:mx-[17.5rem]'>
-                    <h2 className='text-preset-1'>Login</h2>
+                    <h2 className='text-preset-1'>Signup</h2>
 
                     <div className='flex flex-col gap-4  text-grey-500'>
                         <div className='flex flex-col gap-1'>
