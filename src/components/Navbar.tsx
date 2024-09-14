@@ -174,7 +174,7 @@ const Navbar = () => {
                 >
                     <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start px-8 py-4 gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
                         <Link
-                            to='/overviews'
+                            to='/overview'
                             className='flex items-center gap-4'
                         >
                             <svg
