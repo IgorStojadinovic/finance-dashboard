@@ -6,6 +6,7 @@ import user3 from '../assets/images/avatars/daniel-carter.jpg';
 import user4 from '../assets/images/avatars/sun-park.jpg';
 import user5 from '../assets/images/avatars/urban-services-hub.jpg';
 import Chart from '../components/Chart';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     return (
@@ -13,7 +14,7 @@ const Home = () => {
             <div className='hidden xl:flex'>
                 <Navbar />
             </div>
-            <div className='flex flex-col w-full gap-8 px-4 py-6 md:p-8 xl:h-dvh'>
+            <div className='flex flex-col w-full gap-6 px-4 py-6 md:p-8 xl:h-dvh '>
                 <div className='block-wapper xl:flex xl:flex-col gap-6'>
                     <h1 className='text-preset-1'>Overview</h1>
                     <section className='flex flex-col gap-3 md:flex-row md:gap-6 xl:w-full   xl:col-span-2 '>
@@ -137,9 +138,12 @@ const Home = () => {
                                     Transactions
                                 </h2>
                                 <div className='flex items-center justify-between capitalize gap-3'>
-                                    <a className='text-preset-4 text-grey-500'>
-                                        View all
-                                    </a>
+                                    <Link
+                                        to='/transactions'
+                                        className='text-preset-4 text-grey-500 hover:text-grey-900'
+                                    >
+                                        view all
+                                    </Link>
                                     <img src={caretRightIcon} />
                                 </div>
                             </div>
@@ -221,9 +225,7 @@ const Home = () => {
                                         alt='profile-image'
                                         className='rounded-full h-8 mr-3 md:h-10'
                                     />
-                                    <h3 className='flex-1'>
-                                        Urban Service Hub
-                                    </h3>
+                                    <h3 className='flex-1'>Urban Service</h3>
                                     <div className='flex flex-col items-end'>
                                         <span className='text-preset-4-bold text-green mb-2'>
                                             +$75.50
@@ -237,17 +239,20 @@ const Home = () => {
                         </section>
                     </div>
 
-                    <div className='block-wapper flex flex-col xl:w-1/2 gap-6  xl:h-full xl:justify-between  '>
+                    <div className='block-wapper flex flex-col xl:w-1/2 gap-6  '>
                         {/* BUDGETS */}
-                        <section className='bg-white rounded-lg py-6 px-5 flex flex-col  gap-5 justify-between md:p-8'>
+                        <section className='bg-white rounded-lg py-6 px-5 flex flex-col  gap-5 justify-between md:p-8 xl:flex-1'>
                             <div className='flex justify-between'>
                                 <h2 className='text-preset-2 capitalize'>
                                     Budgets
                                 </h2>
                                 <div className='flex items-center justify-between capitalize gap-3'>
-                                    <a className='text-preset-4 text-grey-500'>
+                                    <Link
+                                        to='/budgets'
+                                        className='text-preset-4 text-grey-500 hover:text-grey-900'
+                                    >
                                         see details
-                                    </a>
+                                    </Link>
                                     <img src={caretRightIcon} />
                                 </div>
                             </div>
@@ -305,20 +310,23 @@ const Home = () => {
                             </div>
                         </section>
                         {/* BILLS */}
-                        <section className='bg-white rounded-lg py-6 px-5 flex flex-col gap-8 justify-between  xl:justify-normal  xl:flex-1'>
+                        <section className='bg-white rounded-lg py-6 px-5 flex flex-col gap-8 justify-between'>
                             <div className='flex justify-between'>
                                 <h2 className='text-preset-2 capitalize'>
                                     Recurring Bills
                                 </h2>
                                 <div className='flex items-center justify-between capitalize gap-3'>
-                                    <a className='text-preset-4 text-grey-500'>
+                                    <Link
+                                        to='/recurring'
+                                        className='text-preset-4 text-grey-500 hover:text-grey-900'
+                                    >
                                         see details
-                                    </a>
+                                    </Link>
                                     <img src={caretRightIcon} />
                                 </div>
                             </div>
 
-                            <div className='flex flex-col gap-6 xl:justify-between xl:gap-0 flex-1'>
+                            <div className='flex flex-col gap-6'>
                                 <div className='bg-beige-100 py-5 px-4 rounded-lg flex justify-between border-l-4 border-l-green'>
                                     <span className='text-preset-4 capitalize'>
                                         paid bills

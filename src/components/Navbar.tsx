@@ -3,6 +3,7 @@ import Logo from '../assets/images/Logo.svg';
 import { useState } from 'react';
 import { clsx } from 'clsx';
 import { BsFillCircleFill } from 'react-icons/bs';
+import { useLocation } from 'react-router-dom';
 
 const Navbar = () => {
     const [toggle, setToggle] = useState(false);
@@ -10,12 +11,14 @@ const Navbar = () => {
         setToggle((prev) => !prev);
         console.log('toggle');
     };
+    const { pathname } = useLocation();
+
     const mobileNav = (
         <nav className='bg-grey-900 px-10 pt-2 rounded-t-lg '>
             <ul className='flex justify-between'>
                 <li className='relative w-1/3 h-10 flex flex-col items-center justify-center hover:bg-white rounded-t-lg group transition-all ease-in-out duration-100'>
                     <Link
-                        to='/'
+                        to='/overview'
                         className=''
                     >
                         <svg
@@ -38,7 +41,7 @@ const Navbar = () => {
                 </li>
                 <li className='relative w-1/3 h-10 flex flex-col items-center justify-center hover:bg-white rounded-t-lg group transition-all ease-in-out duration-100'>
                     <Link
-                        to='/'
+                        to='/transactions'
                         className=''
                     >
                         <svg
@@ -61,7 +64,7 @@ const Navbar = () => {
                 </li>
                 <li className='relative w-1/3 h-10 flex flex-col items-center justify-center hover:bg-white rounded-t-lg group transition-all ease-in-out duration-100'>
                     <Link
-                        to='/'
+                        to='/budgets'
                         className=''
                     >
                         <svg
@@ -84,7 +87,7 @@ const Navbar = () => {
                 </li>
                 <li className='relative w-1/3 h-10 flex flex-col items-center justify-center hover:bg-white rounded-t-lg group transition-all ease-in-out duration-100'>
                     <Link
-                        to='/'
+                        to='/pots'
                         className=''
                     >
                         <svg
@@ -107,7 +110,7 @@ const Navbar = () => {
                 </li>
                 <li className='relative w-1/3 h-10 flex flex-col items-center justify-center hover:bg-white rounded-t-lg group transition-all ease-in-out duration-100'>
                     <Link
-                        to='/'
+                        to='/recurring'
                         className=''
                     >
                         <svg
@@ -172,10 +175,21 @@ const Navbar = () => {
                         }
                     )}
                 >
-                    <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start px-8 py-4 gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
+                    <li
+                        className={clsx(
+                            {
+                                'relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200':
+                                    pathname !== '/overview',
+                            },
+                            {
+                                'relative w-[85%] rounded-r-lg h-10 flex items-center justify-start gap-4 bg-white border-l-4  hover:border-l-4 border-l-green group transition-all ease-in-out duration-200':
+                                    pathname === '/overview',
+                            }
+                        )}
+                    >
                         <Link
                             to='/overview'
-                            className='flex items-center gap-4'
+                            className='flex items-center  px-8 py-4 gap-4 w-full'
                         >
                             <svg
                                 fill=''
@@ -187,19 +201,39 @@ const Navbar = () => {
                                 <path
                                     d='m18 8.59282v8.66718c0 .3978-.158.7794-.4393 1.0607s-.6629.4393-1.0607.4393h-3.75c-.3978 0-.7794-.158-1.0607-.4393s-.4393-.6629-.4393-1.0607v-3.75c0-.1989-.079-.3897-.2197-.5303-.1406-.1407-.3314-.2197-.5303-.2197h-3c-.19891 0-.38968.079-.53033.2197-.14065.1406-.21967.3314-.21967.5303v3.75c0 .3978-.15804.7794-.43934 1.0607s-.66284.4393-1.06066.4393h-3.75c-.39782 0-.779356-.158-1.06066-.4393-.281305-.2813-.43933998-.6629-.43933998-1.0607v-8.66718c-.00003156-.20761.04303048-.41295.12646098-.60305.08343-.1901.205412-.36081.358226-.50133l7.500003-7.07625.01031-.010313c.27613-.251125.63597-.3902803 1.00922-.3902803s.73308.1391553 1.00918.3902803c.0032.003669.0067.007114.0103.010313l7.5 7.07625c.1513.14126.2717.3123.3537.50237.082.19006.1237.39503.1226.60201z'
                                     fill='#b3b3b3'
-                                    className='group-hover:fill-green'
+                                    className={clsx(
+                                        {
+                                            'group-hover:fill-green':
+                                                pathname !== '/overview',
+                                        },
+                                        {
+                                            'fill-green':
+                                                pathname === '/overview',
+                                        }
+                                    )}
                                 />
                             </svg>
 
-                            <span className='text-preset-3 text-grey-300 group-hover:text-grey-900'>
+                            <span
+                                className={clsx(
+                                    {
+                                        'text-preset-3 text-grey-300 group-hover:text-grey-900':
+                                            pathname !== '/overview',
+                                    },
+                                    {
+                                        'text-preset-3  text-grey-900':
+                                            pathname === '/overview',
+                                    }
+                                )}
+                            >
                                 Overview
                             </span>
                         </Link>
                     </li>
-                    <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start px-8 py-4 gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
+                    <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start  gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
                         <Link
                             to='/transactions'
-                            className='flex items-center gap-4'
+                            className='flex items-center gap-4 px-8 py-4 w-full'
                         >
                             <svg
                                 fill='none'
@@ -220,10 +254,10 @@ const Navbar = () => {
                             </span>
                         </Link>
                     </li>
-                    <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start px-8 py-4 gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
+                    <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start  py-4 gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
                         <Link
                             to='/budgets'
-                            className='flex items-center gap-4'
+                            className='flex items-center gap-4 px-8 py-4 w-full'
                         >
                             <svg
                                 fill='none'
@@ -243,10 +277,10 @@ const Navbar = () => {
                             </span>{' '}
                         </Link>
                     </li>
-                    <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start px-8 py-4 gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
+                    <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start  gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
                         <Link
-                            to='/posts'
-                            className='flex items-center gap-4'
+                            to='/pots'
+                            className='flex items-center gap-4 px-8 py-4 w-full'
                         >
                             <svg
                                 fill='none'
@@ -266,10 +300,10 @@ const Navbar = () => {
                             </span>{' '}
                         </Link>
                     </li>
-                    <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start px-8 py-4 gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
+                    <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start  py-4 gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
                         <Link
                             to='/recurring'
-                            className='flex items-center gap-4'
+                            className='flex items-center gap-4 px-8 py-4 w-full'
                         >
                             <svg
                                 fill='none'
@@ -295,11 +329,11 @@ const Navbar = () => {
                     <div
                         className={clsx(
                             {
-                                'flex items-center  w-[85%]  h-10 rounded-r-lg gap-4 py-2 px-10  hover:bg-white border-l-4  border-l-grey-900 hover:border-l-green group  transition-all ease-in-out duration-75':
+                                'flex items-center  w-[85%] cursor-pointer h-10 rounded-r-lg gap-4 py-2 px-10  hover:bg-white border-l-4  border-l-grey-900 hover:border-l-green group  transition-all ease-in-out duration-75':
                                     !toggle,
                             },
                             {
-                                'flex items-center  w-[85%]  h-10 rounded-r-lg gap-4   hover:bg-white border-l-4  border-l-grey-900 hover:border-l-green group  transition-all ease-in-out duration-75':
+                                'flex items-center  w-[85%]  cursor-pointer h-10 rounded-r-lg gap-4   hover:bg-white border-l-4  border-l-grey-900 hover:border-l-green group  transition-all ease-in-out duration-75':
                                     toggle,
                             }
                         )}

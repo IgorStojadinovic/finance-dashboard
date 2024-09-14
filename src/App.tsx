@@ -4,8 +4,8 @@ import Signup from './pages/auth/Signup';
 import Home from './pages/Home';
 import Transactions from './pages/Transactions';
 import Budget from './pages/Budget';
-import Posts from './pages/Posts';
-import RecurringBills from './pages/RecurringBills';
+import Pots from './pages/pots';
+import RecurringBills from './pages/recurring_bills';
 
 const router = createBrowserRouter([
     {
@@ -29,8 +29,8 @@ const router = createBrowserRouter([
         element: <Budget />,
     },
     {
-        path: '/posts',
-        element: <Posts />,
+        path: '/pots',
+        element: <Pots />,
     },
     {
         path: '/recurring',
