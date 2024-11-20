@@ -1,4 +1,3 @@
-import Navbar from '../components/Navbar';
 import caretRightIcon from '../assets/images/icon-caret-right.svg';
 import user1 from '../assets/images/avatars/emma-richardson.jpg';
 import user2 from '../assets/images/avatars/savory-bites-bistro.jpg';
@@ -10,10 +9,7 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
     return (
-        <div className=' bg-beige-100 flex flex-col justify-between xl:flex-row xl:justify-normal h-dvh  '>
-            <div className='hidden xl:flex'>
-                <Navbar />
-            </div>
+        <div className=' bg-beige-100 flex flex-col justify-between xl:flex-row xl:justify-normal xl:flex-1  '>
             <div className='flex flex-col w-full gap-6 px-4 py-6 md:p-8 xl:h-dvh '>
                 <div className='block-wapper xl:flex xl:flex-col gap-6'>
                     <h1 className='text-preset-1'>Overview</h1>
@@ -355,9 +351,6 @@ const Home = () => {
                         </section>
                     </div>
                 </div>
-            </div>
-            <div className='xl:hidden'>
-                <Navbar />
             </div>
         </div>
     );

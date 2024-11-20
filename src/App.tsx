@@ -1,45 +1,55 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Login from './pages/auth/Login';
-import Signup from './pages/auth/Signup';
-import Home from './pages/Home';
-import Transactions from './pages/Transactions';
-import Budget from './pages/Budget';
-import Pots from './pages/pots';
-import RecurringBills from './pages/recurring_bills';
+import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider,} from "react-router-dom";
+import Login from "./pages/auth/login";
+import Signup from "./pages/auth/signup";
+import Home from "./pages/home";
+import Transactions from "./pages/transactions/transactions.tsx";
+import Budget from "./pages/budget";
+import Pots from "./pages/pots";
+import RecurringBills from "./pages/recurring_bills";
+import Layout from "./pages/layout";
 
-const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <Login />,
-    },
-    {
-        path: '/signup',
-        element: <Signup />,
-    },
-    {
-        path: '/overview',
-        element: <Home />,
-    },
-    {
-        path: '/transactions',
-        element: <Transactions />,
-    },
-    {
-        path: '/budgets',
-        element: <Budget />,
-    },
-    {
-        path: '/pots',
-        element: <Pots />,
-    },
-    {
-        path: '/recurring',
-        element: <RecurringBills />,
-    },
-]);
+const router = createBrowserRouter(
+    createRoutesFromElements(
+        <Route>
+            <Route
+                path="/"
+                element={<Login/>}
+            />
+            <Route
+                path="/signup"
+                element={<Signup/>}
+            />
+            <Route
+                path="/dashboard"
+                element={<Layout/>}
+            >
+                <Route
+                    path="overview"
+                    element={<Home/>}
+                />
+                <Route
+                    path="transactions"
+                    element={<Transactions/>}
+                />
+                <Route
+                    path="budgets"
+                    element={<Budget/>}
+                />
+                <Route
+                    path="pots"
+                    element={<Pots/>}
+                />
+                <Route
+                    path="recurring"
+                    element={<RecurringBills/>}
+                />
+            </Route>
+        </Route>
+    )
+);
 
 const App = () => {
-    return <RouterProvider router={router} />;
+    return <RouterProvider router={router}/>;
 };
 
 export default App;
