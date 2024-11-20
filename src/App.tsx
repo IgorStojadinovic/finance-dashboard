@@ -1,12 +1,12 @@
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider,} from "react-router-dom";
-import Login from "./pages/auth/Login";
-import Signup from "./pages/auth/signup.tsx";
-import Home from "./pages/Home";
+import Login from "./pages/auth/Login.tsx";
+import Signup from "./pages/auth/Signup.tsx";
+import Home from "./pages/Home.tsx";
 import Transactions from "./pages/transactions/transactions.tsx";
-import Budget from "./pages/Budget";
-import Pots from "./pages/pots";
-import RecurringBills from "./pages/recurring_bills";
-import Layout from "./pages/layout";
+import Budget from "./pages/Budget.tsx";
+import Pots from "./pages/Pots.tsx";
+import RecurringBills from "./pages/Recurring_bills.tsx";
+import Layout from "./pages/layout.tsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
