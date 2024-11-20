@@ -9,12 +9,11 @@ const Navbar = () => {
     const [toggle, setToggle] = useState(false);
     const toggleMenu = () => {
         setToggle((prev) => !prev);
-        console.log('toggle');
     };
     const { pathname } = useLocation();
 
     const mobileNav = (
-        <nav className='bg-grey-900 px-10 pt-2 rounded-t-lg '>
+        <nav className='bg-grey-900 px-10 pt-2 rounded-t-lg   '>
             <ul className='flex justify-between'>
                 <li className='relative w-1/3 h-10 flex flex-col items-center justify-center hover:bg-white rounded-t-lg group transition-all ease-in-out duration-100'>
                     <Link
@@ -138,7 +137,7 @@ const Navbar = () => {
     const desktopNav = (
         <nav
             className={clsx(
-                'bg-grey-900 flex flex-col w-[300px]  rounded-r-3xl gap-5 h-full transition-all ease-in-out duration-300',
+                'bg-grey-900 flex flex-col w-[300px]  rounded-r-3xl gap-5 h-full transition-all ease-in-out duration-300 ',
                 {
                     'bg-grey-900 flex flex-col rounded-r-3xl w-[80px] gap-5 h-full transition-all ease-in-out duration-300':
                         toggle,
@@ -179,16 +178,16 @@ const Navbar = () => {
                         className={clsx(
                             {
                                 'relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200':
-                                    pathname !== '/overview',
+                                    pathname !== '/dashboard/overview',
                             },
                             {
                                 'relative w-[85%] rounded-r-lg h-10 flex items-center justify-start gap-4 bg-white border-l-4  hover:border-l-4 border-l-green group transition-all ease-in-out duration-200':
-                                    pathname === '/overview',
+                                    pathname === '/dashboard/overview',
                             }
                         )}
                     >
                         <Link
-                            to='/overview'
+                            to='/dashboard/overview'
                             className='flex items-center  px-8 py-4 gap-4 w-full'
                         >
                             <svg
@@ -204,11 +203,13 @@ const Navbar = () => {
                                     className={clsx(
                                         {
                                             'group-hover:fill-green':
-                                                pathname !== '/overview',
+                                                pathname !==
+                                                '/dashboard/overview',
                                         },
                                         {
                                             'fill-green':
-                                                pathname === '/overview',
+                                                pathname ===
+                                                '/dashboard/overview',
                                         }
                                     )}
                                 />
@@ -218,11 +219,11 @@ const Navbar = () => {
                                 className={clsx(
                                     {
                                         'text-preset-3 text-grey-300 group-hover:text-grey-900':
-                                            pathname !== '/overview',
+                                            pathname !== '/dashboard/overview',
                                     },
                                     {
                                         'text-preset-3  text-grey-900':
-                                            pathname === '/overview',
+                                            pathname === '/dashboard/overview',
                                     }
                                 )}
                             >
@@ -232,7 +233,7 @@ const Navbar = () => {
                     </li>
                     <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start  gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
                         <Link
-                            to='/transactions'
+                            to='/dashboard/transactions'
                             className='flex items-center gap-4 px-8 py-4 w-full'
                         >
                             <svg
@@ -256,7 +257,7 @@ const Navbar = () => {
                     </li>
                     <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start  py-4 gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
                         <Link
-                            to='/budgets'
+                            to='/dashboard/budgets'
                             className='flex items-center gap-4 px-8 py-4 w-full'
                         >
                             <svg
@@ -279,7 +280,7 @@ const Navbar = () => {
                     </li>
                     <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start  gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
                         <Link
-                            to='/pots'
+                            to='/dashboard/pots'
                             className='flex items-center gap-4 px-8 py-4 w-full'
                         >
                             <svg
@@ -302,7 +303,7 @@ const Navbar = () => {
                     </li>
                     <li className='relative w-[85%] rounded-r-lg h-10 flex items-center  justify-start  py-4 gap-4 hover:bg-white border-l-4 border-l-grey-900 hover:border-l-4 hover:border-l-green group transition-all ease-in-out duration-200'>
                         <Link
-                            to='/recurring'
+                            to='/dashboard/recurring'
                             className='flex items-center gap-4 px-8 py-4 w-full'
                         >
                             <svg
@@ -394,7 +395,7 @@ const Navbar = () => {
     return (
         <>
             <div className='xl:hidden'>{mobileNav}</div>
-            <div className='xl:flex hidden h-full'>{desktopNav}</div>
+            <div className='xl:flex hidden'>{desktopNav}</div>
         </>
     );
 };

@@ -137,7 +137,7 @@ const Login = () => {
 
                     <Link
                         className='btn-dark'
-                        to='/overview'
+                        to='/dashboard/overview'
                     >
                         Login
                     </Link>

@@ -1,5 +1,5 @@
 const Pots = () => {
-    return <div>Pots</div>;
+    return <div className='xl:flex-1 h-screen'>Pots</div>;
 };
 
 export default Pots;
