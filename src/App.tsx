@@ -1,9 +1,9 @@
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider,} from "react-router-dom";
-import Login from "./pages/auth/login.tsx";
-import Signup from "./pages/auth/signup";
-import Home from "./pages/home";
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/signup.tsx";
+import Home from "./pages/Home";
 import Transactions from "./pages/transactions/transactions.tsx";
-import Budget from "./pages/budget.tsx";
+import Budget from "./pages/Budget";
 import Pots from "./pages/pots";
 import RecurringBills from "./pages/recurring_bills";
 import Layout from "./pages/layout";
