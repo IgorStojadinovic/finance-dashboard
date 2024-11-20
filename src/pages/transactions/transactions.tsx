@@ -9,10 +9,10 @@ import {ChevronDownIcon,} from "@heroicons/react/20/solid";
 
 
 const Transactions = () => {
-    const [showSort, setShowSort] = useState(false);
-    const [showCategory, setShowCategory] = useState(false);
+    const [, setShowSort] = useState(false);
+    const [, setShowCategory] = useState(false);
     const [currentSort, setCurrentSort] = useState("latest");
-    const [currentCategory, setCurrentCategory] = useState("all transactions");
+    const [currentCategory,] = useState("all transactions");
     const [searchInput, setSearchInput] = useState("");
 
 
