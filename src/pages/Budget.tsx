@@ -121,8 +121,8 @@ const Budget = () => {
 
                                     <section className="flex flex-col gap-5">
                                         <h3>Maximum of ${item.max}</h3>
-                                        <div className="w-full h-8 bg-beige-100 p-2 rounded-md">
-                                            <div className="h-6 w-1/2 rounded-sm"
+                                        <div className="w-full h-10 bg-beige-100 p-2 rounded-md">
+                                            <div className="h-full w-1/2 rounded-sm"
                                                  style={{background: item.hex, width: item.bar}}>
                                             </div>
                                         </div>

@@ -9,6 +9,7 @@ interface TransactionListProps {
     sortBy: string;
     sortByCategory: string;
     searchFor: string;
+    setInputDisabled: (isDisabled: boolean) => void;
 }
 
 const TransactionList: React.FC<TransactionListProps> = ({
@@ -16,9 +17,16 @@ const TransactionList: React.FC<TransactionListProps> = ({
                                                              sortBy,
                                                              sortByCategory,
                                                              searchFor,
+                                                             setInputDisabled
                                                          }): React.JSX.Element => {
     const [currentPage, setCurrentPage] = useState(1);
     const PageSize = 9;
+
+    if (currentPage > 1) {
+        setInputDisabled(true);
+    } else {
+        setInputDisabled(false);
+    }
 
     const filteredAndSortedTransactions: TransactionsOBJ[] = useMemo(() => {
         let filtered = transactions.filter((obj) =>

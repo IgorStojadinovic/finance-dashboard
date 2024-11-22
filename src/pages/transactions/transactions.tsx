@@ -6,6 +6,7 @@ import TransactionList from "./transaction_list.tsx";
 import React, {useState} from "react";
 import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/react";
 import {ChevronDownIcon,} from "@heroicons/react/20/solid";
+import clsx from "clsx";
 
 
 const Transactions = () => {
@@ -14,6 +15,7 @@ const Transactions = () => {
     const [currentSort, setCurrentSort] = useState("latest");
     const [currentCategory, setCurrentCategory] = useState("all transactions");
     const [searchInput, setSearchInput] = useState("");
+    const [inputDisabled, setInputDisabled] = useState(false);
 
 
     const toggleSort = () => {
@@ -41,8 +43,11 @@ const Transactions = () => {
             <div className="bg-white rounded-lg px-5 py-6 flex flex-1 flex-col gap-6">
                 <div className="flex items-center  justify-between gap-6 relative">
                     <input type="text"
+                           disabled={inputDisabled}
                            placeholder="Transactions"
-                           className="rounded-md ring-1 w-4/3  border-0 p-0 px-3 py-2 shadow-sm ring-gray-300 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:ring-gray-300 "
+                           className={clsx("rounded-md ring-1 w-4/3  border-0 p-0 px-3 text-grey-500 py-2 shadow-sm ring-gray-300 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:ring-gray-300 ", {
+                               "rounded-md ring-1 w-4/3  border-0 p-0 px-3 text-grey-500 py-2 shadow-sm ring-gray-300 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:ring-gray-300 placeholder-grey-300": inputDisabled
+                           })}
                            onChange={(e) => handleSearch(e)}
                     />
                     <div className=" h-full flex gap-6 justify-end items-center">
@@ -128,6 +133,7 @@ const Transactions = () => {
                     sortBy={currentSort}
                     sortByCategory={currentCategory}
                     searchFor={searchInput}
+                    setInputDisabled={setInputDisabled}
                 />
             </div>
         </div>);
