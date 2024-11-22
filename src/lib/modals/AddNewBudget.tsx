@@ -32,6 +32,9 @@ const AddNewBudget = () => {
 
     return (
         <>
+            {
+                isOpen && <div className="fixed inset-0 bg-black/30 z-0"></div>
+            }
             <Button
                 onClick={toggleOpen}
                 className=" z-10 rounded-md text-preset-4-bold bg-grey-900 p-4 font-medium text-white focus:outline-none data-[hover]:bg-black/30 data-[focus]:outline-1 data-[focus]:outline-white"
