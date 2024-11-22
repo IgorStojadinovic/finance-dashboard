@@ -1,7 +1,7 @@
 # Finance Dashboard
 
-A modern and responsive finance dashboard built with React, TypeScript, Vite, and styled using TailwindCSS. 
-This application provides users with a comprehensive view of their financial data, including visualizations, 
+A modern and responsive finance dashboard built with React, TypeScript, Vite, and styled using TailwindCSS.
+This application provides users with a comprehensive view of their financial data, including visualizations,
 transaction history, and other key insights to help manage and track their finances effectively.
 
 ## Table of Contents
@@ -12,12 +12,10 @@ transaction history, and other key insights to help manage and track their finan
 - [Installation](#installation)
 - [Development](#development)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Demo
 
-[Insert link to live demo here]
+https://devtesting023.netlify.app/
 
 ## Features
 
@@ -43,12 +41,14 @@ To get started with this project locally, follow these steps:
 ```bash
 git clone https://github.com/yourusername/finance-dashboard.git
 ```
+
 ### 2. Install dependencies
 
 ```bash
 cd finance-dashboard
 npm install
 ```
+
 ### 3. Run preview build or development
 
 ### Preview build
@@ -59,6 +59,7 @@ npm run preview
 ```
 
 ### Development
+
 ```bash
 npm run dev
 ```
