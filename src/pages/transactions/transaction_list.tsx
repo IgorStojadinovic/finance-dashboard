@@ -7,12 +7,14 @@ import {Tab, TabGroup, TabList, TabPanel, TabPanels} from "@headlessui/react";
 interface TransactionListProps {
     transactions: TransactionsOBJ[];
     sortBy: string;
+    sortByCategory: string;
     searchFor: string;
 }
 
 const TransactionList: React.FC<TransactionListProps> = ({
                                                              transactions,
                                                              sortBy,
+                                                             sortByCategory,
                                                              searchFor,
                                                          }): React.JSX.Element => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -23,8 +25,8 @@ const TransactionList: React.FC<TransactionListProps> = ({
             obj.name.toLowerCase().includes(searchFor.toLowerCase())
         );
 
-        if (["entertainment", "bills", "groceries", "transportation"].includes(sortBy)) {
-            filtered = filtered.filter((transaction) => transaction.category === sortBy);
+        if (sortByCategory !== "all transactions") {
+            filtered = filtered.filter((transaction) => transaction.category === sortByCategory);
         }
 
         switch (sortBy) {
@@ -43,7 +45,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
             default:
                 return filtered;
         }
-    }, [transactions, searchFor, sortBy]);
+    }, [transactions, searchFor, sortBy, sortByCategory]);
 
     const currentTableData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;

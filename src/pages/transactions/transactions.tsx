@@ -126,6 +126,7 @@ const Transactions = () => {
                 <TransactionList
                     transactions={AllTransactions}
                     sortBy={currentSort}
+                    sortByCategory={currentCategory}
                     searchFor={searchInput}
                 />
             </div>
