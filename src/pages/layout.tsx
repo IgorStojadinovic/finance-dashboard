@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 
 const Layout = () => {
     return (
-        <div className="flex flex-col justify-between md:h-screen xl:flex-row-reverse xl:h-screen  relative">
+        <div className="flex flex-col h-full  justify-between md:h-screen xl:flex-row-reverse xl:h-screen  relative">
             <Outlet/>
             <Navbar/>
         </div>
