@@ -15,7 +15,6 @@ interface BudgetModalProps {
 const DeleteBudgetModal: React.FC<BudgetModalProps> = ({modalOpen, setDeleteStatus,}) => {
     return (
         <>
-            {modalOpen && <div className="bg-black/30 h-full w-full absolute top-0 left-0 z-0 "></div>}
             <Dialog open={modalOpen} as="div" className="relative z-10 focus:outline-none" onClose={() => {
                 setDeleteStatus(false);
             }}>
@@ -46,7 +45,7 @@ const DeleteBudgetModal: React.FC<BudgetModalProps> = ({modalOpen, setDeleteStat
                                     Yes, Confirm Deletion
                                 </Button>
                                 <Button
-                                    className="flex w-full justify-center items-center h-14 gap-2 rounded-md bg-white py-1.5 px-4 text-preset-4 text-grey-500 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
+                                    className="flex w-full justify-center items-center h-14 gap-2 rounded-md bg-white py-1.5 px-4 text-preset-4 text-grey-500 focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-white "
                                     onClick={() => {
                                         setDeleteStatus(false);
                                     }}

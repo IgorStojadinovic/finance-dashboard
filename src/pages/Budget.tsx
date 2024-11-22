@@ -14,6 +14,11 @@ const Budget = () => {
     const [deleteStatus, setDeleteStaus] = useState(false);
     return (
         <div className="xl:flex-1 bg-beige-100 py-6 px-4 md:px-10 md:py-8 relative overflow-y-scroll">
+            {
+                (editStatus || deleteStatus) && (
+                    <div className="fixed inset-0 bg-black/30 z-0"></div>)
+            }
+
             <div className="flex justify-between items-center">
                 <h1 className="text-preset-1">Budgets</h1>
                 <AddNewModal/>

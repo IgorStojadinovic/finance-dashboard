@@ -32,8 +32,6 @@ const EditBudgetModal: React.FC<EditBudgetModalProps> = ({
 
     return (
         <>
-            {modalOpen &&
-                <div className="bg-black/30  w-full absolute top-0 left-0 bottom-0 right-0 z-0 "></div>}
             <Dialog open={modalOpen} as="div" className="relative z-10 focus:outline-none"
                     onClose={() => {
                         setEditStatus(false);
