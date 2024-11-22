@@ -12,7 +12,7 @@ const Transactions = () => {
     const [, setShowSort] = useState(false);
     const [, setShowCategory] = useState(false);
     const [currentSort, setCurrentSort] = useState("latest");
-    const [currentCategory,] = useState("all transactions");
+    const [currentCategory, setCurrentCategory] = useState("all transactions");
     const [searchInput, setSearchInput] = useState("");
 
 
@@ -109,7 +109,7 @@ const Transactions = () => {
                                         return (
                                             <MenuItem key={listItem.name}>
                                                 <li
-                                                    onClick={() => setCurrentSort(listItem.name)}
+                                                    onClick={() => setCurrentCategory(listItem.name)}
 
                                                     className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
                                                 >
