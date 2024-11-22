@@ -1,3 +1,15 @@
+import PapaSoftwareIcon from "../assets/images/avatars/bytewise.jpg";
+import QuebecServiceIcon from "../assets/images/avatars/urban-services-hub.jpg";
+import RomeoCloudIcon from "../assets/images/avatars/nimbus-data-storage.jpg";
+import CharlieElectricIcon from "../assets/images/avatars/spark-electric-solutions.jpg";
+import FoxtronWaterlineIcon from "../assets/images/avatars/aqua-flow-utilities.jpg";
+import TangoGasCompanyIcon from "../assets/images/avatars/ecofuel-energy.jpg";
+import LimaDiningHouseIcon from "../assets/images/avatars/flavor-fiesta.jpg";
+import YunaKimAvatar from "../assets/images/avatars/yuna-kim.jpg";
+import JulietRestaurantIcon from "../assets/images/avatars/savory-bites-bistro.jpg";
+import BravoZenSpa from "../assets/images/avatars/serenity-spa-and-wellness.jpg";
+import SofiaPetersonAvatar from "../assets/images/avatars/sofia-peterson.jpg";
+
 type MenuArr = {
     name: string,
     description: string,
@@ -122,6 +134,7 @@ type BudgetEntry = {
         name: string;
         price: string;
         date: string;
+        icon: string;
     }[];
 };
 
@@ -137,17 +150,20 @@ const userBudget: BudgetEntry[] = [
             {
                 name: "papa software",
                 price: "-$10.00",
-                date: "16 Aug 2024"
+                date: "16 Aug 2024",
+                icon: PapaSoftwareIcon
             },
             {
                 name: "quebec services",
                 price: "-$5.00",
-                date: "12 Aug 2024"
+                date: "12 Aug 2024",
+                icon: QuebecServiceIcon
             },
             {
                 name: "romeo cloud service",
                 price: "-$10.00",
-                date: "05 Aug 2024"
+                date: "05 Aug 2024",
+                icon: RomeoCloudIcon
             }
         ]
     },
@@ -162,17 +178,20 @@ const userBudget: BudgetEntry[] = [
             {
                 name: "charlies electric company",
                 price: "-$100.00",
-                date: "01 Aug 2024"
+                date: "01 Aug 2024",
+                icon: CharlieElectricIcon
             },
             {
                 name: "foxtrot waterline",
                 price: "-$105.00",
-                date: "01 Aug 2024"
+                date: "01 Aug 2024",
+                icon: FoxtronWaterlineIcon
             },
             {
                 name: "tango gas company",
                 price: "-$50.00",
-                date: "01 Aug 2024"
+                date: "01 Aug 2024",
+                icon: TangoGasCompanyIcon
             }
         ]
     },
@@ -187,17 +206,20 @@ const userBudget: BudgetEntry[] = [
             {
                 name: "lima dining house",
                 price: "-$30.00",
-                date: "21 Aug 2024"
+                date: "21 Aug 2024",
+                icon: LimaDiningHouseIcon
             },
             {
                 name: "yuna kim",
                 price: "-$21.50",
-                date: "20 Aug 2024"
+                date: "20 Aug 2024",
+                icon: YunaKimAvatar
             },
             {
                 name: "juliet restaurant",
                 price: "-$15.50",
-                date: "12 Aug 2024"
+                date: "12 Aug 2024",
+                icon: JulietRestaurantIcon
             }
         ]
     },
@@ -212,17 +234,20 @@ const userBudget: BudgetEntry[] = [
             {
                 name: "bravo zen spa",
                 price: "-$25.00",
-                date: "29 Aug 2024"
+                date: "29 Aug 2024",
+                icon: BravoZenSpa
             },
             {
                 name: "sofia peterson",
                 price: "-$15.00",
-                date: "15 Aug 2024"
+                date: "15 Aug 2024",
+                icon: SofiaPetersonAvatar
             },
             {
                 name: "bravo zen spa",
                 price: "-$25.00",
-                date: "13 Aug 2024"
+                date: "13 Aug 2024",
+                icon: BravoZenSpa
             }
         ]
     }

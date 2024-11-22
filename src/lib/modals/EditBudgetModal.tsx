@@ -32,7 +32,8 @@ const EditBudgetModal: React.FC<EditBudgetModalProps> = ({
 
     return (
         <>
-            {modalOpen && <div className="bg-black/30 h-full  w-full absolute top-0 left-0 z-0 "></div>}
+            {modalOpen &&
+                <div className="bg-black/30  w-full absolute top-0 left-0 bottom-0 right-0 z-0 "></div>}
             <Dialog open={modalOpen} as="div" className="relative z-10 focus:outline-none"
                     onClose={() => {
                         setEditStatus(false);
@@ -41,7 +42,7 @@ const EditBudgetModal: React.FC<EditBudgetModalProps> = ({
                     <div className="flex min-h-full items-center justify-center p-4">
                         <DialogPanel
                             transition
-                            className="w-full flex flex-col gap-5 max-w-md rounded-xl bg-white shadow-md p-6 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+                            className="w-full flex flex-col gap-5 max-w-md md:max-w-xl rounded-xl bg-white shadow-md p-6 md:p-8 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
                         >
                             <DialogTitle as="h3" className="text-preset-2 flex justify-between items-center">
                                 Edit Budget

@@ -23,7 +23,7 @@ const DeleteBudgetModal: React.FC<BudgetModalProps> = ({modalOpen, setDeleteStat
                     <div className="flex min-h-full items-center justify-center p-4">
                         <DialogPanel
                             transition
-                            className="w-full flex flex-col gap-5 max-w-md rounded-xl bg-white shadow-md p-6 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+                            className="w-full flex flex-col gap-5 max-w-md md:max-w-xl rounded-xl bg-white shadow-md p-6  md:p-8 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
                         >
                             <DialogTitle as="h3" className="text-preset-2 flex justify-between items-center">
                                 Delete
@@ -38,7 +38,7 @@ const DeleteBudgetModal: React.FC<BudgetModalProps> = ({modalOpen, setDeleteStat
                             </p>
                             <div className="mt-4 flex flex-col gap-2">
                                 <Button
-                                    className="flex w-full justify-center items-center h-14 gap-2 rounded-md bg-grey-900 py-1.5 px-4 text-preset-4-bold text-white focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
+                                    className="flex w-full justify-center items-center h-14 gap-2 rounded-md bg-red py-1.5 px-4 text-preset-4-bold text-white focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
                                     onClick={() => {
                                         setDeleteStatus(false);
                                     }}
