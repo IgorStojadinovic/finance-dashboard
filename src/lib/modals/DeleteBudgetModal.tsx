@@ -10,9 +10,10 @@ import {XCircleIcon} from "@heroicons/react/24/outline";
 interface BudgetModalProps {
     modalOpen: boolean;
     setDeleteStatus: (status: boolean) => void;
+    name?: string;
 }
 
-const DeleteBudgetModal: React.FC<BudgetModalProps> = ({modalOpen, setDeleteStatus,}) => {
+const DeleteBudgetModal: React.FC<BudgetModalProps> = ({modalOpen, setDeleteStatus, name}) => {
     return (
         <>
             <Dialog open={modalOpen} as="div" className="relative z-10 focus:outline-none" onClose={() => {
@@ -22,10 +23,10 @@ const DeleteBudgetModal: React.FC<BudgetModalProps> = ({modalOpen, setDeleteStat
                     <div className="flex min-h-full items-center justify-center p-4">
                         <DialogPanel
                             transition
-                            className="w-full flex flex-col gap-5 max-w-md md:max-w-xl rounded-xl bg-white shadow-md p-6  md:p-8 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+                            className="w-full flex flex-col gap-5 max-w-md md:max-w-xl rounded-xl bg-white shadow-md p-6  md:p-8 duration-200 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
                         >
-                            <DialogTitle as="h3" className="text-preset-2 flex justify-between items-center">
-                                Delete
+                            <DialogTitle as="h3" className="text-preset-2 flex justify-between items-center capitalize">
+                                {name ? `Delete '${name}'?` : "Delete Budget"}
                                 <XCircleIcon className="size-8 cursor-pointer text-grey-500"
                                              onClick={() => {
                                                  setDeleteStatus(false);

@@ -321,5 +321,56 @@ const colorTags: ColorsArr [] = [
     }
 ];
 
+export type PotsArr = {
+    name: string;
+    saved: string;
+    bar: string;
+    target: string;
+    hex: string;
+    colorName: string
+}
+const userPots: PotsArr[] = [
+    {
+        name: "saving",
+        saved: "$159.00",
+        bar: "7.95%",
+        target: "2.000",
+        hex: "#277C78",
+        colorName: "green"
+    },
+    {
+        name: "concert ticket",
+        saved: "$110.00",
+        bar: "73.3%",
+        target: "150",
+        hex: "#626070",
+        colorName: "navy"
+    },
+    {
+        name: "gift",
+        saved: "$40.00",
+        bar: "66.6%",
+        target: "60",
+        hex: "#3F82B2",
+        colorName: "blue"
+    },
+    {
+        name: "new laptop",
+        saved: "$10.00",
+        bar: "1%",
+        target: "1000",
+        hex: "#F2CDAC",
+        colorName: "yellow"
+    },
+    {
+        name: "holiday",
+        saved: "531.00",
+        bar: "36%",
+        target: "1440",
+        hex: "#826CB0",
+        colorName: "purple"
+    },
+];
 
-export {sortMenu, categoriesMenu, colorTags, budgetStatus, userBudget};
+
+export {sortMenu, categoriesMenu, colorTags, budgetStatus, userBudget, userPots};
