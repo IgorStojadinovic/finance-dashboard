@@ -17,7 +17,7 @@ const Navbar = () => {
             <ul className="flex justify-between">
                 <li className="relative w-1/3 h-10 flex flex-col items-center justify-center hover:bg-white rounded-t-lg group transition-all ease-in-out duration-100">
                     <Link
-                        to="/overview"
+                        to="/dashboard/overview"
                         className=""
                     >
                         <svg
@@ -40,7 +40,7 @@ const Navbar = () => {
                 </li>
                 <li className="relative w-1/3 h-10 flex flex-col items-center justify-center hover:bg-white rounded-t-lg group transition-all ease-in-out duration-100">
                     <Link
-                        to="/transactions"
+                        to="/dashboard/transactions"
                         className=""
                     >
                         <svg
@@ -63,7 +63,7 @@ const Navbar = () => {
                 </li>
                 <li className="relative w-1/3 h-10 flex flex-col items-center justify-center hover:bg-white rounded-t-lg group transition-all ease-in-out duration-100">
                     <Link
-                        to="/budgets"
+                        to="/dashboard/budgets"
                         className=""
                     >
                         <svg
@@ -86,7 +86,7 @@ const Navbar = () => {
                 </li>
                 <li className="relative w-1/3 h-10 flex flex-col items-center justify-center hover:bg-white rounded-t-lg group transition-all ease-in-out duration-100">
                     <Link
-                        to="/pots"
+                        to="/dashboard/pots"
                         className=""
                     >
                         <svg
@@ -109,7 +109,7 @@ const Navbar = () => {
                 </li>
                 <li className="relative w-1/3 h-10 flex flex-col items-center justify-center hover:bg-white rounded-t-lg group transition-all ease-in-out duration-100">
                     <Link
-                        to="/recurring"
+                        to="/dashboard/recurring"
                         className=""
                     >
                         <svg

@@ -19,10 +19,7 @@ import {useState} from "react";
 
 const AddNewPot = () => {
     const [isOpen, setIsOpen] = useState(false);
-
     const [currentColor, setCurrentColor] = useState("green");
-
-
     const currentColorTag = colorTags.filter(color => color.name.toLowerCase().includes(currentColor.toLowerCase()));
 
     const toggleOpen = () => {

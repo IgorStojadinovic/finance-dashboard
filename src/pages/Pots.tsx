@@ -1,4 +1,9 @@
-import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/react";
+import {
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuItems
+} from "@headlessui/react";
 import {EllipsisHorizontalIcon} from "@heroicons/react/24/solid";
 import {userPots} from "../lib/lits.ts";
 import EditPot from "../lib/modals/EditPot.tsx";
@@ -6,14 +11,16 @@ import {useState} from "react";
 import DeleteBudgetModal from "../lib/modals/DeleteBudgetModal.tsx";
 import AddNewPot from "../lib/modals/AddNewPot.tsx";
 
-
 const Pots = () => {
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalDelete, setModalDelete] = useState(false);
+
+    const [modalEditOpen, setModalEditOpen] = useState(false);
+    const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
+
+
     return (
         <div className="xl:flex-1 bg-beige-100 py-6 px-4 md:px-10 md:py-8 xl:px-10 relative overflow-y-scroll">
             {
-                (modalOpen || modalDelete) && (
+                (modalEditOpen || modalDeleteOpen) && (
                     <div className="fixed inset-0 bg-black/30 z-10"></div>)
             }
 
@@ -26,8 +33,9 @@ const Pots = () => {
                     {userPots.map((item) => {
                         return (
                             <section className="bg-white rounded-lg xl:col-span-1" key={item.name}>
-                                <EditPot modalOpen={modalOpen} currentPot={item} setEditStatus={setModalOpen}/>
-                                <DeleteBudgetModal modalOpen={modalDelete} setDeleteStatus={setModalDelete}
+                                <EditPot modalOpen={modalEditOpen} currentPot={item}
+                                         setEditStatus={setModalEditOpen}/>
+                                <DeleteBudgetModal modalOpen={modalDeleteOpen} setDeleteStatus={setModalDeleteOpen}
                                                    name={item.name}/>
                                 <div className="flex flex-col gap-5 px-5 py-6 md:p-6 ">
                                     <section className="flex items-center justify-between">
@@ -52,7 +60,7 @@ const Pots = () => {
                                                         <button
                                                             className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10"
                                                             onClick={() => {
-                                                                setModalOpen(true);
+                                                                setModalEditOpen(true);
                                                             }}
                                                         >
                                                             Edit Pot
@@ -64,7 +72,7 @@ const Pots = () => {
                                                             className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10 text-red"
 
                                                             onClick={() => {
-                                                                setModalDelete(true);
+                                                                setModalDeleteOpen(true);
                                                             }}
                                                         > Delete Pot
                                                         </button>
@@ -121,3 +129,4 @@ const Pots = () => {
 };
 
 export default Pots;
+

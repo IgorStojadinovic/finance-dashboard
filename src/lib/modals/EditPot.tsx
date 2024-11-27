@@ -29,11 +29,13 @@ const EditPot: React.FC<EditBudgetModalProps> = ({
                                                      currentPot
                                                  }) => {
 
-    const {name, hex, colorName, target} = currentPot;
+    const {hex, colorName, target} = currentPot;
     const [currentColor, setCurrentColor] = useState(hex);
     const [colorTag, setColorTag] = useState(colorName);
-    const [potName, setPotName] = useState(name);
+    // const [setPotName] = useState(name);
     const [potMaxSpending, setPotMaxSpending] = useState(target);
+    console.log(potMaxSpending);
+
 
     return (
         <>
@@ -65,11 +67,8 @@ const EditPot: React.FC<EditBudgetModalProps> = ({
                                         <p>Pot Name</p>
                                         <input
                                             className="w-full flex py-[0.75rem] px-5 h-full capitalize items-center justify-between rounded-md border-0 ring-1 ring-gray-300 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:ring-gray-300"
-                                            value={
-                                                potName}
-                                            onChange={(e) => {
-                                                setPotName(e.target.value);
-                                            }}
+
+
                                         />
                                     </div>
                                     <MenuItems
@@ -86,8 +85,7 @@ const EditPot: React.FC<EditBudgetModalProps> = ({
                                         <p className="text-preset-4">$</p>
                                         <Input
                                             type={"number"}
-                                            value={
-                                                potMaxSpending}
+
                                             onChange={(e) => {
                                                 setPotMaxSpending(e.target.value);
                                             }}
