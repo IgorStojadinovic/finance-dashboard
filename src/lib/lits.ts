@@ -9,6 +9,9 @@ import YunaKimAvatar from "../assets/images/avatars/yuna-kim.jpg";
 import JulietRestaurantIcon from "../assets/images/avatars/savory-bites-bistro.jpg";
 import BravoZenSpa from "../assets/images/avatars/serenity-spa-and-wellness.jpg";
 import SofiaPetersonAvatar from "../assets/images/avatars/sofia-peterson.jpg";
+import ElevateEducationIcon from "../assets/images/avatars/elevate-education.jpg";
+import IconDeltaTaxi from "../assets/images/avatars/swift-ride-share.jpg";
+import IconEcoGame from "../assets/images/avatars/pixel-playground.jpg";
 
 type MenuArr = {
     name: string,
@@ -371,6 +374,78 @@ const userPots: PotsArr[] = [
         colorName: "purple"
     },
 ];
+type UserRecurringBillsOBJ = {
+    name: string;
+    amount: string;
+    icon: string;
+    order: string;
+    status: string;
+}
 
+const userRecurringBills: UserRecurringBillsOBJ[] = [
+    {
+        name: "elevate education",
+        icon: ElevateEducationIcon,
+        amount: "$250",
+        order: "monthly-1st",
+        status: "paid"
+    },
+    {
+        name: "bravo zen spa",
+        icon: BravoZenSpa,
+        amount: "$250",
+        order: "monthly-1st",
+        status: "paid"
+    },
+    {
+        name: "elevate education",
+        amount: "$70",
+        icon: CharlieElectricIcon,
+        order: "monthly-3rd",
+        status: "paid"
+    },
+    {
+        name: "charlies electric company",
+        amount: "$10",
+        icon: CharlieElectricIcon,
+        order: "monthly-5th",
+        status: "open"
+    },
+    {
+        name: "delta taxi",
+        amount: "$250",
+        icon: IconDeltaTaxi,
+        order: "monthly-6th",
+        status: "open"
+    },
+    {
+        name: "echo game store",
+        amount: "$50",
+        icon: IconEcoGame,
+        order: "monthly-12st",
+        status: "paid"
+    },
+    {
+        name: "echo game store",
+        amount: "$10",
+        icon: IconEcoGame,
+        order: "monthly-16th",
+        status: "paid"
+    },
+    {
+        name: "tango gas company",
+        amount: "$220",
+        icon: TangoGasCompanyIcon,
+        order: "monthly-22nd",
+        status: "paid"
+    },
+    {
+        name: "juliet restaurant",
+        amount: "$950",
+        icon: JulietRestaurantIcon,
+        order: "monthly-28th",
+        status: "paid"
+    },
+];
 
-export {sortMenu, categoriesMenu, colorTags, budgetStatus, userBudget, userPots};
+export {sortMenu, categoriesMenu, colorTags, budgetStatus, userBudget, userPots, userRecurringBills};

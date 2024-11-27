@@ -5,7 +5,7 @@ import Home from "./pages/Home.tsx";
 import Transactions from "./pages/transactions/transactions.tsx";
 import Budget from "./pages/Budget.tsx";
 import Pots from "./pages/Pots.tsx";
-import RecurringBills from "./pages/Recurring_bills.tsx";
+import RecurringBills from "./pages/Recurring.tsx";
 import Layout from "./pages/layout.tsx";
 
 const router = createBrowserRouter(
