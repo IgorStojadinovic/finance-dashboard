@@ -3,7 +3,7 @@ import Login from "./pages/auth/Login.tsx";
 import Signup from "./pages/auth/Signup.tsx";
 import Home from "./pages/Home.tsx";
 import Transactions from "./pages/transactions/transactions.tsx";
-import Budget from "./pages/Budget.tsx";
+import Budget from "./pages/budget/Budget.tsx";
 import Pots from "./pages/Pots.tsx";
 import RecurringBills from "./pages/Recurring.tsx";
 import Layout from "./pages/layout.tsx";
