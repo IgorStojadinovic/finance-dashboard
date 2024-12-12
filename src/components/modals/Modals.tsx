@@ -43,7 +43,7 @@ const Modals = () => {
                 </MenuButton>
             </div>
             <MenuItems
-                className="absolute w-full max-h-[300px] overflow-y-scroll z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-grey-white scrollbar-track-gray-50  ">
+                className="absolute w-full max-h-[300px] overflow-y-scroll z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5  scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-grey-white scrollbar-track-gray-50  ">
                 <div className="py-1">
                     {categories.map(listItem => (
                         <MenuItem key={listItem.name}>
@@ -135,6 +135,9 @@ const Modals = () => {
                         </div>
                         <div className="mt-4">
                             <Button
+                                onClick={() => {
+                                    setIsModalOpen(false);
+                                }}
                                 className="flex w-full justify-center items-center h-14 gap-2 rounded-md bg-grey-900 py-1.5 px-4 text-preset-4-bold text-white focus:outline-none">
                                 Add Budget
                             </Button>

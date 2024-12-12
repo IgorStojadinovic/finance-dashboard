@@ -13,7 +13,7 @@ import {
 } from "@headlessui/react";
 import {XCircleIcon} from "@heroicons/react/24/outline";
 import {ChevronDownIcon} from "@heroicons/react/16/solid";
-import {BudgetEntry, PotsArr, categoriesMenu, colorTags} from "../../lib/lits.ts";
+import {BudgetEntry, categoriesMenu, colorTags, PotsArr} from "../../lib/lits.ts";
 import React, {useState} from "react";
 import {EllipsisHorizontalIcon} from "@heroicons/react/24/solid";
 
@@ -22,15 +22,10 @@ import {useLocation} from "react-router-dom";
 interface BudgetProps {
     budget?: BudgetEntry;
     pots?: PotsArr;
-
 }
 
-
 const EditingModals: React.FC<BudgetProps> = ({budget, pots}) => {
-
     const {pathname} = useLocation();
-
-
     const categoryName =
         pathname === "/dashboard/budgets"
             ? budget?.category ?? "" // Default fallback value
@@ -90,7 +85,7 @@ const EditingModals: React.FC<BudgetProps> = ({budget, pots}) => {
                                 </div>
                                 <MenuItems
                                     transition
-                                    className="absolute w-full max-h-[300px] overflow-y-scroll z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                                    className="absolute w-full max-h-[300px] overflow-y-scroll z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-grey-white scrollbar-track-gray-50  "
                                 >
                                     <div className="py-1">
                                         {categories.map((listItem) => {
@@ -129,10 +124,10 @@ const EditingModals: React.FC<BudgetProps> = ({budget, pots}) => {
 
                             <Menu as="div" className="relative w-full">
                                 <div
-                                    className="flex flex-col w-full gap-1 text-preset-5-bold text-grey-500">
+                                    className="flex flex-col w-full gap-1 text-preset-5-bold text-grey-500 ">
                                     <p>Color tag</p>
                                     <MenuButton
-                                        className="inline-flex py-[0.75rem] px-5 h-full capitalize items-center justify-between gap-x-1.5 rounded-md bg-white   font-semibold text-gray-900  ring-1 ring-gray-300 hover:bg-gray-50 ">
+                                        className="inline-flex py-[0.75rem] px-5 h-full capitalize items-center justify-between gap-x-1.5 rounded-md bg-white   font-semibold text-gray-900  ring-1 ring-gray-300 hover:bg-gray-50  ">
                                         <div className="flex gap-2">
                                             <div
                                                 className="w-4 h-4 rounded-full"
@@ -146,7 +141,7 @@ const EditingModals: React.FC<BudgetProps> = ({budget, pots}) => {
                                 </div>
                                 <MenuItems
                                     transition
-                                    className="absolute w-full max-h-[200px] overflow-y-scroll z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                                    className="absolute w-full max-h-[200px] overflow-y-scroll z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-grey-white scrollbar-track-gray-50  "
                                 >
                                     <div className="py-1">
                                         {colorTags.map((color) => {
@@ -275,7 +270,8 @@ const EditingModals: React.FC<BudgetProps> = ({budget, pots}) => {
                     </MenuItems>
                 </Menu>
             </div>
-            {editModalOpen ? RenderEditBudgetModal() : RenderDeleteModal()}
+            {editModalOpen && RenderEditBudgetModal()}
+            {deleteModalOpen && RenderDeleteModal()}
         </>
     );
 };
