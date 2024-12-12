@@ -3,7 +3,6 @@ import BudgetCard from "./component/BudgetCard.tsx";
 import BudgetChart from "./component/BudgetChart.tsx";
 
 const Budget = () => {
-    console.log("Budget PAGE");
     return (
         <div className="xl:flex-1 bg-beige-100 py-6 px-4 md:px-10 md:py-8 relative overflow-y-scroll">
             <div className="flex justify-between items-center">

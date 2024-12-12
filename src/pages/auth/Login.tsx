@@ -35,23 +35,22 @@ const Login = () => {
     useEffect(() => {
         notify();
     }, []);
-    const [data, setData] = useState<Data>({
-        email: "",
-        password: "",
+    const [, setData] = useState<Data>({
+        email: "Admin",
+        password: "Admin",
     });
 
     const [type, setType] = useState("password");
 
     const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event) {
-            console.log(event);
             setData((prevData) => ({
                 ...prevData,
                 [event.target.name]: event.target.value,
             }));
         }
     };
-    console.log(data);
+
 
     const togglePasswordView = () => {
         if (type === "password") {

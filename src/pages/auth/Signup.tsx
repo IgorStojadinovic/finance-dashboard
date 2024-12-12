@@ -12,17 +12,16 @@ type Data = {
 };
 
 const Signup = () => {
-    const [data, setData] = useState<Data>({
-        name: "",
-        email: "",
-        password: "",
+    const [, setData] = useState<Data>({
+        name: "Admin",
+        email: "Admin@gmail.com",
+        password: "Admin",
     });
 
     const [type, setType] = useState("password");
 
     const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event) {
-            console.log(event);
             setData((prevData) => ({
                 ...prevData,
                 [event.target.name]: event.target.value,
@@ -37,7 +36,7 @@ const Signup = () => {
             setType("password");
         }
     };
-    console.log(data);
+
 
     return (
         <div className="bg-beige-100 flex flex-col h-svh xl:flex-row">
