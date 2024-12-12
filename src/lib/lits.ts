@@ -126,7 +126,7 @@ const budgetStatus: BudgetsArr[] = [
         color: "#277C78"
     }
 ];
-type BudgetEntry = {
+export type BudgetEntry = {
     category: string;
     hex: string;
     max: string;
