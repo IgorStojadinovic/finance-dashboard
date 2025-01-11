@@ -1,5 +1,5 @@
 /** @type {import("tailwindcss").Config} */
-const defaultTheme = require("tailwindcss/defaultTheme");
+import defaultTheme from "tailwindcss/defaultTheme";
 const flowbite = require("flowbite-react/tailwind");
 
 
