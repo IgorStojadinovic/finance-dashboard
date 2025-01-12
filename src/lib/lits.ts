@@ -335,32 +335,32 @@ export type PotsArr = {
 const userPots: PotsArr[] = [
     {
         name: "saving",
-        saved: "$159.00",
-        bar: "7.95%",
-        target: "2.000",
+        saved: "159.00",
+        bar: ((parseFloat("159.00") / parseFloat("2000")) * 100).toFixed(1) + "%",
+        target: "2000",
         hex: "#277C78",
         colorName: "green"
     },
     {
         name: "concert ticket",
-        saved: "$110.00",
-        bar: "73.3%",
+        saved: "110.00",
+        bar: ((parseFloat("110.00") / parseFloat("150")) * 100).toFixed(1) + "%",
         target: "150",
         hex: "#626070",
         colorName: "navy"
     },
     {
         name: "gift",
-        saved: "$40.00",
-        bar: "66.6%",
+        saved: "40.00",
+        bar: ((parseFloat("40.00") / parseFloat("60")) * 100).toFixed(1) + "%",
         target: "60",
         hex: "#3F82B2",
         colorName: "blue"
     },
     {
         name: "new laptop",
-        saved: "$10.00",
-        bar: "1%",
+        saved: "10.00",
+        bar: ((parseFloat("10.00") / parseFloat("1000")) * 100).toFixed(1) + "%",
         target: "1000",
         hex: "#F2CDAC",
         colorName: "yellow"
@@ -368,7 +368,7 @@ const userPots: PotsArr[] = [
     {
         name: "holiday",
         saved: "531.00",
-        bar: "36%",
+        bar: ((parseFloat("531.00") / parseFloat("1440")) * 100).toFixed(1) + "%",
         target: "1440",
         hex: "#826CB0",
         colorName: "purple"
