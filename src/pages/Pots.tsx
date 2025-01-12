@@ -187,7 +187,6 @@ const AddMoneyModal: React.FC<AddMoneyModalProps> = ({
 }) => {
   const [barWidth, setBarWidth] = useState('0%'); // Local state for width transition
   const [inputValue, setInputValue] = useState('$ 400');
-  const [modalopen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
