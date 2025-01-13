@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { PotsArr, userPots } from '../lib/lits.ts';
 import Modals from '../components/modals/Modals.tsx';
 import EditingModals from '../components/modals/EditingModals.tsx';
@@ -16,16 +16,11 @@ import { XCircleIcon } from '@heroicons/react/24/outline';
 const Pots = () => {
   const [pots, setPots] = useState(userPots);
 
-  useEffect(() => {
-    console.log('Pots updated:', pots);
-  }, [pots]);
-
   const updateMoney = (
     potName: string,
     amount: number,
     isAdding: boolean
   ): void => {
-    console.log(potName, amount, isAdding);
     setPots(prevPots =>
       prevPots
         .map(pot =>
@@ -34,16 +29,21 @@ const Pots = () => {
                 ...pot,
                 saved: isAdding
                   ? (
-                      Math.round((parseFloat(pot.saved) + amount) * 100) / 100
+                      Math.round(
+                        (parseFloat(pot.saved || '0') + amount) * 100
+                      ) / 100
                     ).toString()
                   : (
-                      Math.round((parseFloat(pot.saved) - amount) * 100) / 100
+                      Math.round(
+                        (parseFloat(pot.saved || '0') - amount) * 100
+                      ) / 100
                     ).toString(),
                 bar: `${Math.max(
                   0,
                   Math.round(
-                    ((parseFloat(pot.saved) + (isAdding ? amount : -amount)) /
-                      parseFloat(pot.target)) *
+                    ((parseFloat(pot.saved || '0') +
+                      (isAdding ? amount : -amount)) /
+                      parseFloat(pot.target || '0')) *
                       100
                   )
                 )}%`,
@@ -52,23 +52,46 @@ const Pots = () => {
         )
         .map(pot => ({
           ...pot,
-          saved: parseFloat(pot.saved) < 0 ? '0' : pot.saved,
-          bar: Math.sign(parseFloat(pot.bar)) === -1 ? '0%' : pot.bar,
+          saved: parseFloat(pot.saved || '0') < 0 ? '0' : pot.saved,
+          bar: Math.sign(parseFloat(pot.bar || '0')) === -1 ? '0%' : pot.bar,
         }))
     );
   };
 
+  const addPot = (newPot: PotsArr): void => {
+    setPots(prevPots => [...prevPots, newPot]);
+  };
+
+  const editPot = (updatedPot: PotsArr): void => {
+    setPots(prevPots =>
+      prevPots.map(pot => (pot.id === updatedPot.id ? updatedPot : pot))
+    );
+  };
+
+  const deletePot = (potId: string): void => {
+    setPots(prevPots => prevPots.filter(pot => pot.id !== potId));
+  };
+
+  const memoizedPotItems = useMemo(() => {
+    return pots.map(item => (
+      <PotItem
+        key={item.id} // Ensure the key is unique and consistent
+        item={item}
+        updateMoney={updateMoney}
+        editPot={editPot}
+        deletePot={deletePot}
+      />
+    ));
+  }, [pots]);
   return (
     <div className='xl:flex-1 bg-beige-100 py-6 px-4 md:px-10 md:py-8 xl:px-10 relative overflow-y-scroll'>
       <section className='flex flex-col xl:flex-row xl:flex-wrap w-full gap-6'>
         <div className='flex justify-between items-center xl:w-full'>
           <h1 className='text-preset-1'>Pots</h1>
-          <Modals />
+          <Modals addNewPot={addPot} />
         </div>
         <section className='flex flex-col gap-6 xl:grid xl:grid-cols-2 xl:gap-6 xl:w-full'>
-          {pots.map(item => (
-            <PotItem key={item.name} item={item} updateMoney={updateMoney} />
-          ))}
+          {memoizedPotItems}
         </section>
       </section>
     </div>
@@ -78,9 +101,16 @@ const Pots = () => {
 interface PotProps {
   item: PotsArr;
   updateMoney: (potName: string, amount: number, isAdding: boolean) => void;
+  editPot: (updatedPot: PotsArr) => void;
+  deletePot: (potId: string) => void;
 }
 
-const PotItem: React.FC<PotProps> = ({ item, updateMoney }) => {
+const PotItem: React.FC<PotProps> = ({
+  item,
+  updateMoney,
+  editPot,
+  deletePot,
+}) => {
   const [barWidth, setBarWidth] = useState('0%'); // Local state for width transition
   const [addMoneyModalOpen, setAddMoneyModalOpen] = useState(false);
   const [withdrawMoneyModalOpen, setWithdrawMoneyModalOpen] = useState(false);
@@ -92,14 +122,14 @@ const PotItem: React.FC<PotProps> = ({ item, updateMoney }) => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setBarWidth(item.bar); // Update width after a delay
+      setBarWidth(item.bar || '0%'); // Update width after a delay
     }, 100); // Small delay to trigger transition
     return () => clearTimeout(timeout); // Cleanup timeout
   }, [item.bar]); // Re-run if `item.bar` changes
 
   return (
     <section className='bg-white rounded-lg xl:col-span-1'>
-      <AddMoneyModal
+      <AddAndWithdrawMoneyModal
         handleModalToggle={handleModalToggle}
         addMoneyModalOpen={addMoneyModalOpen}
         withdrawMoneyModalOpen={withdrawMoneyModalOpen}
@@ -119,7 +149,7 @@ const PotItem: React.FC<PotProps> = ({ item, updateMoney }) => {
               {item.name}
             </h2>
           </div>
-          <EditingModals pots={item} />
+          <EditingModals pots={item} editPot={editPot} deletePot={deletePot} />
         </section>
 
         <section className='flex flex-col gap-5 text-preset-4 text-grey-500'>
@@ -178,7 +208,7 @@ interface AddMoneyModalProps {
   updateMoney: (potName: string, amount: number, isAdding: boolean) => void;
 }
 
-const AddMoneyModal: React.FC<AddMoneyModalProps> = ({
+const AddAndWithdrawMoneyModal: React.FC<AddMoneyModalProps> = ({
   handleModalToggle,
   addMoneyModalOpen,
   withdrawMoneyModalOpen,
@@ -186,17 +216,19 @@ const AddMoneyModal: React.FC<AddMoneyModalProps> = ({
   updateMoney,
 }) => {
   const [barWidth, setBarWidth] = useState('0%'); // Local state for width transition
-  const [inputValue, setInputValue] = useState('$ 400');
+  const [inputValue, setInputValue] = useState(0);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setBarWidth(currentPot.bar); // Update width after a delay
+      setBarWidth(currentPot.bar || '0%'); // Update width after a delay
     }, 100); // Small delay to trigger transition
     return () => clearTimeout(timeout); // Cleanup timeout
   }, [currentPot.bar]); // Re-run if `item.bar` changes
 
   const ModalBackdrop = () =>
-    addMoneyModalOpen && <div className='fixed inset-0 bg-black/30 z-0'></div>;
+    (addMoneyModalOpen || withdrawMoneyModalOpen) && (
+      <div className='fixed inset-0 bg-black/30 z-0'></div>
+    );
 
   interface HandleModalProps {
     currentPot: PotsArr;
@@ -205,9 +237,10 @@ const AddMoneyModal: React.FC<AddMoneyModalProps> = ({
 
   const handleModal = ({ currentPot, status }: HandleModalProps) => {
     updateMoney(currentPot.name, Number(inputValue), status);
-    setInputValue('$ 400');
+    setInputValue(400);
     handleModalToggle();
   };
+
   const renderAddMoneyModal = () => {
     return (
       <Dialog
@@ -216,8 +249,6 @@ const AddMoneyModal: React.FC<AddMoneyModalProps> = ({
         className='relative z-50 focus:outline-none'
         onClose={handleModalToggle}
       >
-        <ModalBackdrop />
-
         <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
           <div className='flex min-h-full items-center justify-center p-4'>
             <DialogPanel className='w-full flex flex-col gap-5 max-w-md md:max-w-xl rounded-xl bg-white shadow-md p-6 md:p-8'>
@@ -270,7 +301,7 @@ const AddMoneyModal: React.FC<AddMoneyModalProps> = ({
                     type='number'
                     placeholder='$ 400'
                     className='w-full py-[0.08rem] px-2 border-0 text-preset-5  items-center justify-between rounded-md focus:ring-0 focus:outline-none group-hover:bg-gray-50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-                    onChange={e => setInputValue(e.target.value)}
+                    onChange={e => setInputValue(Number(e.target.value))}
                   />
                 </div>
               </Field>
@@ -303,8 +334,6 @@ const AddMoneyModal: React.FC<AddMoneyModalProps> = ({
         className='relative z-50 focus:outline-none'
         onClose={handleModalToggle}
       >
-        <ModalBackdrop />
-
         <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
           <div className='flex min-h-full items-center justify-center p-4'>
             <DialogPanel className='w-full flex flex-col gap-5 max-w-md md:max-w-xl rounded-xl bg-white shadow-md p-6 md:p-8'>
@@ -356,7 +385,7 @@ const AddMoneyModal: React.FC<AddMoneyModalProps> = ({
                     type='number'
                     placeholder='$ 400'
                     className='w-full py-[0.08rem] px-2 border-0 text-preset-5  items-center justify-between rounded-md focus:ring-0 focus:outline-none group-hover:bg-gray-50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-                    onChange={e => setInputValue(e.target.value)}
+                    onChange={e => setInputValue(Number(e.target.value))}
                   />
                 </div>
               </Field>
@@ -382,6 +411,7 @@ const AddMoneyModal: React.FC<AddMoneyModalProps> = ({
 
   return (
     <>
+      <ModalBackdrop />
       {addMoneyModalOpen && renderAddMoneyModal()}
       {withdrawMoneyModalOpen && renderWithdrawMoneyModal()}
     </>
