@@ -33,3 +33,23 @@
 .btn-dark {
     @apply bg-grey-900 text-white py-4 flex items-center justify-center rounded-lg hover:bg-grey-500;
 }
+
+.nav-sidebar {
+  background-color: #1c1c1c;
+  display: flex;
+  flex-direction: column;
+  border-top-right-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+  height: 100%;
+  transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-x: hidden;
+}
+
+.nav-sidebar--minimized {
+  width: 120px;
+  padding-right: 1rem;
+}
+
+.nav-sidebar--maximized {
+  width: 300px;
+}

@@ -126,6 +126,7 @@ const budgetStatus: BudgetsArr[] = [
   },
 ];
 export type BudgetEntry = {
+  id: string;
   category: string;
   hex: string;
   max: string;
@@ -142,6 +143,7 @@ export type BudgetEntry = {
 
 const userBudget: BudgetEntry[] = [
   {
+    id: '1',
     category: 'entertainment',
     hex: '#277C78',
     max: '50',
@@ -170,6 +172,7 @@ const userBudget: BudgetEntry[] = [
     ],
   },
   {
+    id: '2',
     category: 'bills',
     hex: '#82C9D7',
     max: '750',
@@ -198,6 +201,7 @@ const userBudget: BudgetEntry[] = [
     ],
   },
   {
+    id: '3',
     category: 'dining out',
     hex: '#F2CDAC',
     max: '75',
@@ -226,6 +230,7 @@ const userBudget: BudgetEntry[] = [
     ],
   },
   {
+    id: '4',
     category: 'personal care',
     hex: '#626070',
     max: '100',
@@ -378,12 +383,13 @@ const userPots: PotsArr[] = [
     colorName: 'purple',
   },
 ];
-type UserRecurringBillsOBJ = {
+export type UserRecurringBillsOBJ = {
   name: string;
   amount: string;
   icon: string;
   order: string;
   status: string;
+  date: string;
 };
 
 const userRecurringBills: UserRecurringBillsOBJ[] = [
@@ -393,6 +399,7 @@ const userRecurringBills: UserRecurringBillsOBJ[] = [
     amount: '$250',
     order: 'monthly-1st',
     status: 'paid',
+    date: '2024-01-15',
   },
   {
     name: 'bravo zen spa',
@@ -400,6 +407,7 @@ const userRecurringBills: UserRecurringBillsOBJ[] = [
     amount: '$250',
     order: 'monthly-1st',
     status: 'paid',
+    date: '2024-02-22',
   },
   {
     name: 'elevate education',
@@ -407,6 +415,7 @@ const userRecurringBills: UserRecurringBillsOBJ[] = [
     icon: CharlieElectricIcon,
     order: 'monthly-3rd',
     status: 'paid',
+    date: '2024-03-10',
   },
   {
     name: 'charlies electric company',
@@ -414,6 +423,7 @@ const userRecurringBills: UserRecurringBillsOBJ[] = [
     icon: CharlieElectricIcon,
     order: 'monthly-5th',
     status: 'open',
+    date: '2024-04-05',
   },
   {
     name: 'delta taxi',
@@ -421,6 +431,7 @@ const userRecurringBills: UserRecurringBillsOBJ[] = [
     icon: IconDeltaTaxi,
     order: 'monthly-6th',
     status: 'open',
+    date: '2024-05-18',
   },
   {
     name: 'echo game store',
@@ -428,6 +439,7 @@ const userRecurringBills: UserRecurringBillsOBJ[] = [
     icon: IconEcoGame,
     order: 'monthly-12st',
     status: 'paid',
+    date: '2024-06-30',
   },
   {
     name: 'echo game store',
@@ -435,6 +447,7 @@ const userRecurringBills: UserRecurringBillsOBJ[] = [
     icon: IconEcoGame,
     order: 'monthly-16th',
     status: 'paid',
+    date: '2024-07-25',
   },
   {
     name: 'tango gas company',
@@ -442,6 +455,7 @@ const userRecurringBills: UserRecurringBillsOBJ[] = [
     icon: TangoGasCompanyIcon,
     order: 'monthly-22nd',
     status: 'paid',
+    date: '2024-08-12',
   },
   {
     name: 'juliet restaurant',
@@ -449,6 +463,7 @@ const userRecurringBills: UserRecurringBillsOBJ[] = [
     icon: JulietRestaurantIcon,
     order: 'monthly-28th',
     status: 'paid',
+    date: '2024-09-03',
   },
 ];
 

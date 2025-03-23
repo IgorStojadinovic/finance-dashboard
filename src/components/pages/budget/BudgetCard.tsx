@@ -1,13 +1,26 @@
-import { BudgetEntry, userBudget } from '../../../lib/lits.ts';
+import { BudgetEntry } from '../../../lib/lits.ts';
 import { ChevronRightIcon } from '@heroicons/react/16/solid';
-import EditingModals from '../../../components/modals/EditingModals.tsx';
+import EditingModals from '../../modals/EditingModals.tsx';
 import React, { useEffect, useState } from 'react';
+import { useBudgetStore } from '../../../lib/store/useBudgetStore.ts';
 
 interface BudgetProps {
   item: BudgetEntry;
+  editBudget?: (budget: BudgetEntry) => void;
 }
 
-const BudgetItem: React.FC<BudgetProps> = ({ item }) => {
+const BudgetCard = () => {
+  const { budgets, handleEditBudget } = useBudgetStore();
+  return (
+    <section className='flex flex-col xl:flex-row xl:flex-wrap gap-6'>
+      {budgets.map(item => (
+        <BudgetItem key={item.id} item={item} editBudget={handleEditBudget} />
+      ))}
+    </section>
+  );
+};
+
+const BudgetItem: React.FC<BudgetProps> = ({ item, editBudget }) => {
   const [barWidth, setBarWidth] = useState('0%');
 
   useEffect(() => {
@@ -18,7 +31,7 @@ const BudgetItem: React.FC<BudgetProps> = ({ item }) => {
   }, [item.bar]);
 
   return (
-    <section className='bg-white rounded-lg xl:w-full ' key={item.category}>
+    <section className='bg-white rounded-lg xl:w-full ' key={item.id}>
       <div className='flex flex-col gap-5 px-5 py-6 md:p-8'>
         <section className='flex items-center justify-between'>
           <div className='flex gap-4 items-center'>
@@ -28,7 +41,7 @@ const BudgetItem: React.FC<BudgetProps> = ({ item }) => {
             ></div>
             <h2 className='text-preset-2 capitalize'>{item.category}</h2>
           </div>
-          <EditingModals budget={item} />
+          <EditingModals budget={item} editBudget={editBudget} />
         </section>
         <section className='flex flex-col gap-5'>
           <h3>Maximum of ${item.max}</h3>
@@ -59,7 +72,6 @@ const BudgetItem: React.FC<BudgetProps> = ({ item }) => {
             </div>
           </section>
         </section>
-
         <section className='bg-beige-100 rounded-lg'>
           <div className='flex flex-col gap-5 p-4'>
             <div className='flex justify-between '>
@@ -105,16 +117,6 @@ const BudgetItem: React.FC<BudgetProps> = ({ item }) => {
           </div>
         </section>
       </div>
-    </section>
-  );
-};
-
-const BudgetCard = () => {
-  return (
-    <section className='flex flex-col xl:flex-row xl:flex-wrap gap-6'>
-      {userBudget.map(item => (
-        <BudgetItem key={item.category} item={item} />
-      ))}
     </section>
   );
 };

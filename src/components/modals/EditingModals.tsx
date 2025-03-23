@@ -5,7 +5,6 @@ import {
   DialogTitle,
   Field,
   Input,
-  Label,
   Menu,
   MenuButton,
   MenuItem,
@@ -18,7 +17,7 @@ import {
   categoriesMenu,
   colorTags,
   PotsArr,
-} from '../../lib/lits.ts';
+} from '../../lib/lits';
 import React, { useState } from 'react';
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
 import { useLocation } from 'react-router-dom';
@@ -27,7 +26,8 @@ interface BudgetProps {
   budget?: BudgetEntry;
   pots?: PotsArr;
   editPot?: (pot: PotsArr) => void;
-  deletePot?: (id: string) => void;
+  deletePot?: (pot: PotsArr) => void;
+  editBudget?: (budget: BudgetEntry) => void;
 }
 
 const EditingModals: React.FC<BudgetProps> = ({
@@ -35,6 +35,7 @@ const EditingModals: React.FC<BudgetProps> = ({
   pots,
   editPot,
   deletePot,
+  editBudget,
 }) => {
   const { pathname } = useLocation();
 
@@ -42,12 +43,13 @@ const EditingModals: React.FC<BudgetProps> = ({
   const [editBudgetModalOpen, setEditBudgetModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [currentColor, setCurrentColor] = useState('green');
-  const [maxValue, setMaxValue] = useState(pots?.target ?? '');
+  const [maxValue, setMaxValue] = useState(pots?.target ?? budget?.max ?? '0');
   const [potName, setPotName] = useState(pots?.name ?? '');
-  const [currentPotId] = useState(pots?.id ?? '');
   const [currentCategory, setCurrentCategory] = useState(
     budget?.category ?? ''
   );
+  const [spentValue, setSpentValue] = useState(budget?.spent ?? '0');
+  const [freeValue, setFreeValue] = useState(budget?.free ?? '0');
 
   const categories = categoriesMenu.filter(
     item => !item.name.toLowerCase().includes('all transactions')
@@ -58,7 +60,7 @@ const EditingModals: React.FC<BudgetProps> = ({
 
   const ModalBackdrop = () =>
     (editPotModalOpen || editBudgetModalOpen || deleteModalOpen) && (
-      <div className='fixed inset-0 bg-black/30 z-0'></div>
+      <div className='fixed inset-0 bg-black/30 z-[999]'></div>
     );
 
   const handleEditPot = () => {
@@ -71,10 +73,31 @@ const EditingModals: React.FC<BudgetProps> = ({
       bar: pots?.bar ?? '',
       hex: currentColorTag[0].hex ?? '',
     };
+
     setEditPotModalOpen(false);
     if (editPot) {
       editPot(newPot);
     }
+  };
+
+  const handleEditBudget = () => {
+    if (editBudget && budget) {
+      const spent = parseFloat(spentValue) || 0;
+      const max = parseFloat(maxValue) || 0;
+      const bar = max > 0 ? ((spent / max) * 100).toFixed(0) + '%' : '0%';
+      const free = (max - spent).toString();
+
+      editBudget({
+        ...budget,
+        category: currentCategory,
+        max: maxValue,
+        hex: currentColorTag[0].hex ?? '',
+        spent: spentValue,
+        bar,
+        free,
+      });
+    }
+    setEditBudgetModalOpen(false);
   };
 
   const handleEditButton = () => {
@@ -88,7 +111,6 @@ const EditingModals: React.FC<BudgetProps> = ({
   const CategoryMenu = () => (
     <Menu as='div' className='relative w-full'>
       <div className='flex flex-col w-full gap-1 text-preset-5-bold text-grey-500'>
-        <p>Budget Category</p>
         <MenuButton className='inline-flex py-[0.75rem] px-5 h-full capitalize items-center justify-between gap-x-1.5 rounded-md bg-white   font-semibold text-gray-900  ring-1 ring-gray-300 hover:bg-gray-50 '>
           <p>{currentCategory}</p>
           <ChevronDownIcon
@@ -151,9 +173,9 @@ const EditingModals: React.FC<BudgetProps> = ({
               </p>
               <div className='flex flex-col gap-4'>
                 <Field className='flex flex-col gap-1 w-full'>
-                  <Label className='text-preset-5-bold text-grey-500 '>
+                  <label className='text-preset-5-bold text-grey-500'>
                     Pot Name
-                  </Label>
+                  </label>
                   <div className='group inline-flex py-[0.75rem] px-5 h-full capitalize items-center justify-between gap-x-1.5 rounded-md bg-white font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50 '>
                     <Input
                       onChange={e => {
@@ -166,9 +188,9 @@ const EditingModals: React.FC<BudgetProps> = ({
                   </div>
                 </Field>
                 <Field className='flex flex-col gap-1 w-full'>
-                  <Label className='text-preset-5-bold text-grey-500 '>
+                  <label className='text-preset-5-bold text-grey-500'>
                     Maximum Spending
-                  </Label>
+                  </label>
                   <div className='group inline-flex py-[0.75rem] px-5 h-full capitalize items-center justify-between gap-x-1.5 rounded-md bg-white font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50 '>
                     <p className='text-preset-4 text-grey-400'>$</p>
                     <Input
@@ -280,8 +302,8 @@ const EditingModals: React.FC<BudgetProps> = ({
                 <Button
                   className='flex w-full justify-center items-center h-14 gap-2 rounded-md bg-red py-1.5 px-4 text-preset-4-bold text-white focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700'
                   onClick={() => {
-                    if (deletePot) {
-                      deletePot(currentPotId);
+                    if (deletePot && pots) {
+                      deletePot(pots);
                     }
                   }}
                 >
@@ -311,7 +333,7 @@ const EditingModals: React.FC<BudgetProps> = ({
         <Dialog
           open={editBudgetModalOpen}
           as='div'
-          className='relative z-10 focus:outline-none'
+          className='relative z-[1000] focus:outline-none'
           onClose={() => {
             setEditBudgetModalOpen(false);
           }}
@@ -341,13 +363,16 @@ const EditingModals: React.FC<BudgetProps> = ({
                 </p>
                 <div className='flex flex-col gap-4'>
                   <Field className='flex flex-col gap-1 w-full'>
+                    <label className='text-preset-5-bold text-grey-500'>
+                      Budget Category
+                    </label>
                     <CategoryMenu />
                   </Field>
 
                   <Field className='flex flex-col gap-1 w-full'>
-                    <Label className='text-preset-5-bold text-grey-500 '>
+                    <label className='text-preset-5-bold text-grey-500'>
                       Maximum Spending
-                    </Label>
+                    </label>
                     <div className='group inline-flex py-[0.75rem] px-5 h-full capitalize items-center justify-between gap-x-1.5 rounded-md bg-white font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50 '>
                       <p className='text-preset-4 text-grey-400'>$</p>
                       <Input
@@ -362,9 +387,47 @@ const EditingModals: React.FC<BudgetProps> = ({
                     </div>
                   </Field>
 
+                  <Field className='flex flex-col gap-1 w-full'>
+                    <label className='text-preset-5-bold text-grey-500'>
+                      Spent Amount
+                    </label>
+                    <div className='group inline-flex py-[0.75rem] px-5 h-full capitalize items-center justify-between gap-x-1.5 rounded-md bg-white font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50 '>
+                      <p className='text-preset-4 text-grey-400'>$</p>
+                      <Input
+                        onChange={e => {
+                          const newSpent = e.target.value;
+                          setSpentValue(newSpent);
+                          const max = parseFloat(maxValue) || 0;
+                          const spent = parseFloat(newSpent) || 0;
+                          setFreeValue((max - spent).toString());
+                        }}
+                        type='number'
+                        placeholder='$ e.g 500'
+                        className='w-full py-[0.08rem] px-2 border-0 text-preset-5  items-center justify-between rounded-md focus:ring-0 focus:outline-none group-hover:bg-gray-50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
+                        value={spentValue}
+                      />
+                    </div>
+                  </Field>
+
+                  <Field className='flex flex-col gap-1 w-full'>
+                    <label className='text-preset-5-bold text-grey-500'>
+                      Free Amount
+                    </label>
+                    <div className='group inline-flex py-[0.75rem] px-5 h-full capitalize items-center justify-between gap-x-1.5 rounded-md bg-white font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50 '>
+                      <p className='text-preset-4 text-grey-400'>$</p>
+                      <Input
+                        type='number'
+                        className='w-full py-[0.08rem] px-2 border-0 text-preset-5  items-center justify-between rounded-md focus:ring-0 focus:outline-none group-hover:bg-gray-50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
+                        value={freeValue}
+                        disabled
+                        placeholder='$ e.g 500'
+                      />
+                    </div>
+                  </Field>
+
                   <Menu as='div' className='relative w-full'>
-                    <div className='flex flex-col w-full gap-1 text-preset-5-bold text-grey-500 '>
-                      <p>Color tag</p>
+                    <div className='flex flex-col w-full gap-1 text-preset-5-bold text-grey-500'>
+                      <label>Color tag</label>
                       <MenuButton className='inline-flex py-[0.75rem] px-5 h-full capitalize items-center justify-between gap-x-1.5 rounded-md bg-white   font-semibold text-gray-900  ring-1 ring-gray-300 hover:bg-gray-50  '>
                         <div className='flex gap-2'>
                           <div
@@ -405,12 +468,45 @@ const EditingModals: React.FC<BudgetProps> = ({
                       </div>
                     </MenuItems>
                   </Menu>
+
+                  <div className='flex flex-col gap-2'>
+                    <label className='text-preset-5-bold text-grey-500'>
+                      Latest Transactions
+                    </label>
+                    <div className='max-h-[200px] overflow-y-auto'>
+                      {budget?.latest.map((transaction, index) => (
+                        <div
+                          key={index}
+                          className='flex items-center justify-between p-3 border-b last:border-b-0'
+                        >
+                          <div className='flex items-center gap-3'>
+                            <img
+                              src={transaction.icon}
+                              alt={transaction.name}
+                              className='w-8 h-8 rounded-full'
+                            />
+                            <div>
+                              <p className='text-sm font-medium capitalize'>
+                                {transaction.name}
+                              </p>
+                              <p className='text-xs text-grey-500'>
+                                {transaction.date}
+                              </p>
+                            </div>
+                          </div>
+                          <p className='text-sm font-medium text-red'>
+                            {transaction.price}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
                 <div className='mt-4'>
                   <Button
                     className='flex w-full justify-center items-center h-14 gap-2 rounded-md bg-grey-900 py-1.5 px-4 text-preset-4-bold text-white focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700'
                     onClick={() => {
-                      handleEditPot();
+                      handleEditBudget();
                     }}
                   >
                     Save Changes

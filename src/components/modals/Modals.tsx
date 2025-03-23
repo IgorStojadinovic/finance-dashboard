@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import {
   Button,
@@ -14,17 +15,17 @@ import {
 } from '@headlessui/react';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import { ChevronDownIcon } from '@heroicons/react/16/solid';
-import { categoriesMenu, colorTags } from '../../lib/lits.ts';
+import { categoriesMenu, colorTags, BudgetEntry } from '../../lib/lits.ts';
 import { useLocation } from 'react-router';
-import { PotsArr, userPots } from '../../lib/lits.ts';
+import { PotsArr } from '../../lib/lits.ts';
 import { v4 as uuidv4 } from 'uuid';
 
 interface ModalsProps {
   addNewPot?: (pot: PotsArr) => void;
-  addNewBudget?: (budget: any) => void;
+  addNewBudget?: (budget: BudgetEntry) => void;
 }
-const Modals: React.FC<ModalsProps> = ({ addNewPot }) => {
-  const [pots] = useState(userPots);
+
+const Modals: React.FC<ModalsProps> = ({ addNewPot, addNewBudget }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState('Entertainment');
   const [currentColor, setCurrentColor] = useState('green');
@@ -32,6 +33,7 @@ const Modals: React.FC<ModalsProps> = ({ addNewPot }) => {
   const [potName, setPotName] = useState('');
   const [potTarget, setPotTarget] = useState('');
   const [potColor, setPotColor] = useState('green');
+  const [maxSpending, setMaxSpending] = useState(0);
 
   const categories = categoriesMenu.filter(
     item => !item.name.toLowerCase().includes('all transactions')
@@ -42,20 +44,18 @@ const Modals: React.FC<ModalsProps> = ({ addNewPot }) => {
   };
 
   const createNewPot = () => {
-    addNewPot &&
+    if (addNewPot) {
       addNewPot({
         id: uuidv4(),
         saved: '0',
         name: potName,
         target: potTarget,
         colorName: potColor,
-        hex:
-          colorTags.find(color => color.name === potColor)?.hex &&
-          colorTags.find(color => color.name === currentColor)?.hex,
+        hex: colorTags.find(color => color.name === potColor)?.hex || '',
         bar: ((parseFloat('0') / parseFloat(potTarget)) * 100).toFixed(1) + '%',
       });
+    }
     setIsModalOpen(false);
-    console.log(pots);
   };
 
   const ModalBackdrop = () =>
@@ -172,6 +172,7 @@ const Modals: React.FC<ModalsProps> = ({ addNewPot }) => {
                   <Input
                     type='number'
                     placeholder='$ e.g 2000'
+                    onChange={e => setMaxSpending(Number(e.target.value))}
                     className='w-full py-[0.08rem] px-2 border-0 text-preset-5  items-center justify-between rounded-md focus:ring-0 focus:outline-none group-hover:bg-gray-50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
                   />
                 </div>
@@ -182,6 +183,20 @@ const Modals: React.FC<ModalsProps> = ({ addNewPot }) => {
             <div className='mt-4'>
               <Button
                 onClick={() => {
+                  if (addNewBudget) {
+                    addNewBudget({
+                      id: uuidv4(),
+                      category: currentCategory,
+                      max: maxSpending.toString(),
+                      hex:
+                        colorTags.find(color => color.name === currentColor)
+                          ?.hex || '',
+                      spent: '0',
+                      free: maxSpending.toString(),
+                      bar: '0%',
+                      latest: [],
+                    });
+                  }
                   setIsModalOpen(false);
                 }}
                 className='flex w-full justify-center items-center h-14 gap-2 rounded-md bg-grey-900 py-1.5 px-4 text-preset-4-bold text-white focus:outline-none'
