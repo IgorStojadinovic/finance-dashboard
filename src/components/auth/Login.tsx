@@ -1,17 +1,26 @@
 import { useEffect, useState } from 'react';
 import Logo from '../../assets/images/Logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import HidePasswordIcon from '../../assets/images/icon-hide-password.svg';
 import ShowPasswordIcon from '../../assets/images/eye-open.svg';
 import AuthIllustration from '../../assets/images/illustration-authentication.svg';
 import toast, { Toaster } from 'react-hot-toast';
+import { useLogin } from '../../lib/hooks/useAuth';
 
 type Data = {
-  email: string;  
+  email: string;
   password: string;
 };
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { mutate: login, isPending, error } = useLogin();
+  const [formData, setFormData] = useState<Data>({
+    email: 'admin@example.com',
+    password: 'admin',
+  });
+  const [showPassword, setShowPassword] = useState(false);
+
   const notify = () => {
     toast('Hey!', {
       duration: 4000,
@@ -32,28 +41,24 @@ const Login = () => {
   useEffect(() => {
     notify();
   }, []);
-  const [, setData] = useState<Data>({
-    email: 'Admin',
-    password: 'Admin',
-  });
 
-  const [type, setType] = useState('password');
-
-  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event) {
-      setData(prevData => ({
-        ...prevData,
-        [event.target.name]: event.target.value,
-      }));
-    }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    login(formData, {
+      onSuccess: () => {
+        navigate('/dashboard/overview');
+      },
+      onError: () => {
+        toast.error('Login failed. Please check your credentials.');
+      },
+    });
   };
 
-  const togglePasswordView = () => {
-    if (type === 'password') {
-      setType('text');
-    } else {
-      setType('password');
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   return (
@@ -74,9 +79,20 @@ const Login = () => {
       <header className='bg-grey-900 py-6 flex justify-center items-center rounded-b-lg xl:hidden'>
         <img src={Logo} alt='logo' />
       </header>
-      <form className='flex flex-col justify-center flex-1'>
+      <form
+        className='flex flex-col justify-center flex-1'
+        onSubmit={handleSubmit}
+      >
         <section className='bg-white flex flex-col gap-8 mx-4 px-5 py-6 justify-center rounded-lg md:mx-[6.5rem] md:px-8 md:py-8 xl:mx-[8.75rem] 2xl:mx-[17.5rem]'>
           <h2 className='text-preset-1'>Login</h2>
+
+          {error && (
+            <div className='text-red-500 text-sm bg-red-50 p-3 rounded'>
+              {error instanceof Error
+                ? error.message
+                : 'An error occurred during login'}
+            </div>
+          )}
 
           <fieldset className='flex flex-col gap-4 text-grey-500'>
             <div className='flex flex-col gap-1'>
@@ -84,11 +100,13 @@ const Login = () => {
                 Email
               </label>
               <input
+                value={formData.email}
                 type='email'
                 name='email'
                 id='email'
                 className='border rounded-lg px-5 py-3'
-                onChange={onInputChange}
+                onChange={handleChange}
+                required
               />
             </div>
             <div className='flex flex-col'>
@@ -98,27 +116,34 @@ const Login = () => {
 
               <span className='relative'>
                 <input
-                  type={type}
-                  name='passowrd'
+                  type={showPassword ? 'text' : 'password'}
+                  name='password'
                   id='pwd'
                   className='border rounded-lg px-5 py-3 w-full'
-                  onChange={onInputChange}
+                  onChange={handleChange}
+                  required
+                  value={formData.password}
                 />
                 <img
-                  src={
-                    type === 'password' ? HidePasswordIcon : ShowPasswordIcon
-                  }
-                  onClick={togglePasswordView}
-                  className='h-4 absolute top-4 right-5'
-                  alt={type === 'password' ? 'Show password' : 'Hide password'}
+                  src={showPassword ? HidePasswordIcon : ShowPasswordIcon}
+                  onClick={() => setShowPassword(!showPassword)}
+                  className='h-4 absolute top-4 right-5 cursor-pointer'
+                  alt={showPassword ? 'Hide password' : 'Show password'}
                 />
               </span>
             </div>
           </fieldset>
 
-          <Link className='btn-dark' to='/dashboard/overview'>
-            Login
-          </Link>
+          <button
+            type='submit'
+            className={`btn-dark ${
+              isPending ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            disabled={isPending}
+          >
+            {isPending ? 'Logging in...' : 'Login'}
+          </button>
+
           <footer className='flex gap-2 items-center justify-center'>
             <p>Need to create an account?</p>
             <Link to='/signup' className='underline text-preset-4-bold'>

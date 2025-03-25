@@ -1,36 +1,59 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
+  Navigate,
 } from 'react-router-dom';
-import Login from './auth/Login.tsx';
-import Signup from './auth/Signup.tsx';
-import Home from './pages/home/Home.tsx';
-import Transactions from './pages/transactions/Transactions.tsx';
-import Budget from './pages/budget/Budget.tsx';
-import Pots from './pages/ports/Pots.tsx';
-import RecurringBills from './pages/recurring/Recurring.tsx';
-import Layout from './layout.tsx';
+import Login from './auth/Login';
+import Signup from './auth/Signup';
+import Home from './pages/home/Home';
+import Transactions from './pages/transactions/Transactions';
+import Budget from './pages/budget/Budget';
+import Pots from './pages/ports/Pots';
+import RecurringBills from './pages/recurring/Recurring';
+import Layout from './layout';
+import { ProtectedRoute } from './auth/ProtectedRoute';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minuta
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path='/' element={<Login />} />
       <Route path='/signup' element={<Signup />} />
-      <Route path='/dashboard' element={<Layout />}>
-        <Route path='overview' element={<Home />} />
-        <Route path='transactions' element={<Transactions />} />
-        <Route path='budgets' element={<Budget />} />
-        <Route path='pots' element={<Pots />} />
+
+      <Route element={<ProtectedRoute />}>
+        <Route path='/dashboard/' element={<Layout />}>
+          <Route
+            index
+            element={<Navigate to='/dashboard/overview' replace />}
+          />
+          <Route path='overview' element={<Home />} />
+          <Route path='transactions' element={<Transactions />} />
+          <Route path='budgets' element={<Budget />} />
+          <Route path='pots' element={<Pots />} />
           <Route path='recurring' element={<RecurringBills />} />
+        </Route>
       </Route>
     </Route>
   )
 );
 
-const App = () => {
-  return <RouterProvider router={router} />;
-};
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
+}
 
 export default App;
