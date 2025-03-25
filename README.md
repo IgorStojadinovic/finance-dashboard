@@ -1,8 +1,74 @@
-# Finance Dashboard
+# Finance Dashboard Frontend
 
-A modern and responsive finance dashboard built with React, TypeScript, Vite, and styled using TailwindCSS.
-This application provides users with a comprehensive view of their financial data, including visualizations,
-transaction history, and other key insights to help manage and track their finances effectively.
+Modern finance dashboard application built with React and TypeScript.
+
+## Tech Stack
+
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![React Query](https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+
+## Features
+
+- 📊 Dashboard Overview
+- 💰 Transaction Management
+- 🎯 Budget Planning
+- 🏺 Savings Pots
+- 📅 Recurring Bills
+- 🔐 User Authentication
+- 📱 Responsive Design
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or newer)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Create a `.env` file in the root directory:
+
+```env
+VITE_API_URL=your_backend_url
+```
+
+### Development
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+### Build
+
+Create a production build:
+
+```bash
+npm run build
+```
+
+### Preview
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+## Project Structure
 
 ## Table of Contents
 
@@ -15,7 +81,7 @@ transaction history, and other key insights to help manage and track their finan
 
 ## Demo
 
-https://devtesting023.netlify.app/
+https://finance-dashboard-psi-sand.vercel.app/
 
 ## Features
 

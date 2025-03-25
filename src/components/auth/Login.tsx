@@ -30,12 +30,15 @@ const Login = () => {
         color: '#fff',
       },
     });
-    toast('Site is currently in development, you can login without account.', {
-      style: {
-        background: '#201F24',
-        color: '#fff',
-      },
-    });
+    toast(
+      'Site is currently in development, you can login with admin account.',
+      {
+        style: {
+          background: '#201F24',
+          color: '#fff',
+        },
+      }
+    );
   };
 
   useEffect(() => {

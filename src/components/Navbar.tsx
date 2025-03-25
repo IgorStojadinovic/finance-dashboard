@@ -196,7 +196,21 @@ const Navbar = () => {
                 )}
               >
                 <FaGithub size={20} className='group-hover:text-green' />
-                {!isMinimized && <span>Code</span>}
+                {!isMinimized && <span>Frontend</span>}
+              </a>
+              <a
+                href='https://github.com/IgorStojadinovic/finance-dashboard-backend'
+                target='_blank'
+                className={clsx(
+                  'group flex items-center  w-full rounded-r-lg gap-4 py-2 px-10',
+                  'hover:bg-white border-l-4 border-l-grey-900 hover:border-l-green',
+                  'text-preset-3 text-grey-300 hover:text-grey-900',
+                  isMinimized &&
+                    'py-0 px-0 flex h-10  w-full items-center justify-center'
+                )}
+              >
+                <FaGithub size={20} className='group-hover:text-green' />
+                {!isMinimized && <span>Backend</span>}
               </a>
             </div>
           </div>
