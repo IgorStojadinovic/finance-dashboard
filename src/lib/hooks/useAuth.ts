@@ -40,13 +40,13 @@ export const useRegister = (): UseMutationResult<
 > => {
   return useMutation({
     mutationFn: async (data: RegisterData) => {
-      console.log('Attempting to register with data:', data);
+/* console.log('Attempting to register with data:', data); */
       const response = await authApi.register(data);
-      console.log('Registration response:', response);
+      /*console.log('Registration response:', response); */
       return response;
     },
     onSuccess: data => {
-      console.log('Registration successful:', data);
+     /*  console.log('Registration successful:', data); */
       if (data.success && data.data) {
         localStorage.setItem('token', data.data.token);
         localStorage.setItem('user', JSON.stringify(data.data.user));
@@ -65,16 +65,16 @@ export const useLogin = (): UseMutationResult<
 > => {
   return useMutation({
     mutationFn: async (data: LoginData) => {
-      console.log('Attempting to login with data:', data);
+      /*   console.log('Attempting to login with data:', data); */
       const response = await authApi.login(data);
-      console.log('Login response:', response);
+      /*       console.log('Login response:', response); */
       return response;
     },
     onSuccess: data => {
-      console.log('Login successful:', data);
       if (data.success && data.data) {
         localStorage.setItem('token', data.data.token);
         localStorage.setItem('user', JSON.stringify(data.data.user));
+        console.log('Login successful', data.data.user.name);
       }
     },
     onError: error => {
@@ -103,4 +103,3 @@ export const useLogout = (): UseMutationResult<
     },
   });
 };
-
