@@ -83,3 +83,24 @@ export const useLogin = (): UseMutationResult<
     },
   });
 };
+
+export const useLogout = (): UseMutationResult<
+  ApiResponse<void>,
+  Error,
+  void
+> => {
+  return useMutation({
+    mutationFn: async () => {
+      const response = await authApi.logout();
+      return response;
+    },
+    onSuccess: () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    },
+    onError: error => {
+      console.error('Logout failed:', error);
+    },
+  });
+};
+
