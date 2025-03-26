@@ -60,7 +60,7 @@ const EditingModals: React.FC<BudgetProps> = ({
 
   const ModalBackdrop = () =>
     (editPotModalOpen || editBudgetModalOpen || deleteModalOpen) && (
-      <div className='fixed inset-0 bg-black/30 z-[999]'></div>
+      <div className='fixed inset-0 bg-black/30 -z-0'></div>
     );
 
   const handleEditPot = () => {
