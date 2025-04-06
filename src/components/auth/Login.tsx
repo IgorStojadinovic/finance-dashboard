@@ -16,8 +16,8 @@ const Login = () => {
   const navigate = useNavigate();
   const { mutate: login, isPending, error } = useLogin();
   const [formData, setFormData] = useState<Data>({
-    email: 'admin@example.com',
-    password: 'admin',
+    email: 'Test_user@gmail.com',
+    password: 'JohnDoe84266+',
   });
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,7 +31,7 @@ const Login = () => {
       },
     });
     toast(
-      'Site is currently in development, you can login with admin account.',
+      'Site is currently in development, you can login with test account.',
       {
         style: {
           background: '#201F24',
