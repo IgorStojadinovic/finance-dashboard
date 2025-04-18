@@ -22,7 +22,7 @@ export default function Signup() {
     e.preventDefault();
     register(formData, {
       onSuccess: () => {
-        navigate('/dashboard/overview'); // Preusmeravamo na overview podrutu
+        navigate('/dashboard/overview'); 
       },
     });
   };
