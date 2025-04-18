@@ -1,12 +1,11 @@
 import React from 'react';
-
+import { Balance } from '../../../lib/types/types';
 interface OverviewProps {
-  currentBalance: number;
-  income: number;
-  expenses: number;
+  currentBalance: Balance[];
 }
 
-export default function Overview({ currentBalance, income, expenses }: OverviewProps) {
+export default function Overview({ currentBalance }: OverviewProps) {
+  const balance = currentBalance[0];
   return (
     <section
       className='block-wapper xl:flex xl:flex-col gap-6'
@@ -27,7 +26,7 @@ export default function Overview({ currentBalance, income, expenses }: OverviewP
             Current Balance
           </h3>
           <span className='text-preset-1' data-testid='current-balance-amount'>
-            {currentBalance}
+            {balance.balance}$
           </span>
         </article>
         <article
@@ -38,7 +37,7 @@ export default function Overview({ currentBalance, income, expenses }: OverviewP
             Income
           </h3>
           <span className='text-preset-1' data-testid='income-amount'>
-            {income}
+            {balance.income}$
           </span>
         </article>
         <article
@@ -49,7 +48,7 @@ export default function Overview({ currentBalance, income, expenses }: OverviewP
             Expenses
           </h3>
           <span className='text-preset-1' data-testid='expenses-amount'>
-            {expenses}
+            {balance.expenses}$
           </span>
         </article>
       </section>

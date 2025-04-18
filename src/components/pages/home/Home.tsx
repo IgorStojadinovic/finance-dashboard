@@ -3,7 +3,15 @@ import Overview from './Overview';
 import Posts from './Posts';
 import Budgets from './Budgets';
 import Bills from './Bills';
+import { useGetUser, useUserId } from '../../../lib/hooks/useGetUser';
+import LoadingThreeDotsJumping from '../../loadingDots';
 const Home = () => {
+  const userId = useUserId();
+  const { user } = useGetUser(userId);
+
+  if (!user) {
+    return <LoadingThreeDotsJumping />;
+  }
   return (
     <main
       className='bg-beige-100 flex flex-col justify-between xl:flex-row xl:justify-normal xl:flex-1'
@@ -11,12 +19,16 @@ const Home = () => {
       role='main'
     >
       <section className='flex flex-col w-full gap-6 px-4 py-6 md:p-8 xl:h-dvh'>
-        <Overview currentBalance={4860} income={3814.25} expenses={1700.5} />
+        <Overview currentBalance={user.balance} />
         <article className='block-container flex flex-col lg:flex-row xl:gap-6 flex-1'>
-          <Posts />
+          <Posts
+            potsData={user.pots}
+            isLoading={false}
+            transactionsData={user.transactions}
+          />
           <section className='block-wapper flex flex-col xl:w-1/2 gap-6'>
-            <Budgets />
-            <Bills />
+            <Budgets budgetsData={user.budgets} isLoading={false} />
+            <Bills billsData={user.recurringBills} />
           </section>
         </article>
       </section>

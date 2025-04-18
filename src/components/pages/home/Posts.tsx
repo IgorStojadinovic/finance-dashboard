@@ -1,14 +1,16 @@
 import SectionHeader from './SectionHeader';
 import TransactionsSection from './Transactions';
 import potIcon from '../../../assets/images/pot-icon.svg';
-export default function Posts() {
-  const potsData = [
-    { name: 'Savings', amount: '$190', color: 'bg-green' },
-    { name: 'Gift', amount: '$194.89', color: 'bg-yellow' },
-    { name: 'Concert Ticket', amount: '$50.98', color: 'bg-cayan' },
-    { name: 'New Laptop', amount: '$10', color: 'bg-navy' },
-  ];
-
+import { Pot, Transaction } from '../../../lib/types/types';
+export default function Posts({
+  potsData,
+  transactionsData,
+  isLoading,
+}: {
+  potsData: Pot[];
+  transactionsData: Transaction[];
+  isLoading: boolean;
+}) {
   return (
     <section className='block-wapper flex flex-col xl:w-1/2 gap-6'>
       <section
@@ -39,7 +41,7 @@ export default function Posts() {
                 Total Saved
               </h3>
               <span className='text-preset-1' data-testid='total-saved-amount'>
-                $850
+                {potsData?.reduce((acc, item) => acc + item.total, 0)} $
               </span>
             </header>
           </article>
@@ -47,13 +49,23 @@ export default function Posts() {
             className='grid grid-cols-2 gap-4 md:flex-1'
             aria-label='Savings breakdown'
           >
-            {potsData.map(item => (
-              <PotsItem key={item.name} {...item} />
-            ))}
+            {isLoading ? (
+              <div>Loading...</div>
+            ) : (
+              potsData &&
+              potsData.map(item => (
+                <PotsItem
+                  key={item.id}
+                  name={item.name}
+                  amount={item.total}
+                  hex={item.hex}
+                />
+              ))
+            )}
           </ul>
         </section>
       </section>
-      <TransactionsSection />
+      <TransactionsSection transactionsData={transactionsData} />
     </section>
   );
 }
@@ -61,16 +73,17 @@ export default function Posts() {
 function PotsItem({
   name,
   amount,
-  color,
+  hex,
 }: {
   name: string;
-  amount: string;
-  color: string;
+  amount: number;
+  hex: string;
 }) {
   return (
     <li className='flex gap-4'>
       <span
-        className={`h-full w-1 ${color} rounded-lg`}
+        className='h-full w-1 rounded-lg'
+        style={{ backgroundColor: hex }}
         role='presentation'
       ></span>
       <article className='flex flex-col gap-1'>
