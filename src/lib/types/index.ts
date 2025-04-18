@@ -16,6 +16,7 @@ export interface Transaction {
   date: string;
   createdAt: string;
   updatedAt: string;
+  image: string;
 }
 
 export interface Pot {
@@ -23,8 +24,7 @@ export interface Pot {
   userId: string;
   name: string;
   total: number;
-  createdAt: string;
-  updatedAt: string;
+  theme: string;
 }
 
 export interface Budget {
