@@ -29,6 +29,7 @@ const Transactions = () => {
   }, []);
 
   if (isLoading) return <LoadingThreeDotsJumping />;
+
   return (
     <main
       className='bg-beige-100 px-4 py-6 flex md:h-screen w-full flex-col gap-8 xl:gap-2 md:px-10 md:py-8'
