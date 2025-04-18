@@ -1,22 +1,22 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import IconSort from '../../../assets/images/icon-sort.svg';
+
 type DropdownArray = {
   name: string;
   description: string;
 };
+
 type TransactionDropdownProps = {
   currentSort: string;
-  toggleSort: () => void;
-  dropdownarray: DropdownArray[];
   setSort: (sort: string) => void;
+  dropdownarray: DropdownArray[];
 };
 
 export default function TransactionDropdown({
   currentSort,
-  toggleSort,
-  dropdownarray,
   setSort,
+  dropdownarray,
 }: TransactionDropdownProps) {
   return (
     <Menu as='section' className='relative inline-block text-left'>
@@ -36,12 +36,7 @@ export default function TransactionDropdown({
             aria-hidden='true'
             className='-mr-1 size-5 text-gray-400 hidden md:flex'
           />
-          <img
-            src={IconSort}
-            onClick={toggleSort}
-            className='h-6 w-6 md:hidden'
-            alt='Sort icon'
-          />
+          <img src={IconSort} className='h-6 w-6 md:hidden' alt='Sort icon' />
         </MenuButton>
       </span>
       <MenuItems

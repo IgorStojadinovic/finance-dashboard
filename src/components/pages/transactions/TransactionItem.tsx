@@ -1,35 +1,38 @@
 import React from 'react';
-import { TransactionsOBJ } from '../../../lib/transactions.ts';
 import { clsx } from 'clsx';
-
+import { Transaction } from '../../../lib/types/types';
 interface TransactionItemProps {
-  transaction: TransactionsOBJ;
+  transaction: Transaction;
 }
 
 const TransactionItem: React.FC<TransactionItemProps> = ({ transaction }) => {
-  const isIncome = transaction.amount.includes('+');
+  const isIncome = transaction.amount > 0;
+  const recurring = transaction.recurring;
 
   const transactionCategory = (
     <span className='text-preset-4 text-grey-500'>{transaction.category}</span>
   );
 
   const transactionDate = (
-    <time
-      className='text-preset-4 text-grey-500 md:flex justify-center'
-      dateTime={new Date(transaction.date).toISOString()}
-    >
-      {transaction.date}
-    </time>
+    <p className='text-preset-4 text-grey-500 md:flex justify-center'>
+      {new Date(transaction.date).toLocaleDateString()}
+    </p>
   );
 
   const transactionAmount = (
     <span
-      className={clsx('text-preset-4-bold', {
-        'text-green': isIncome,
-      })}
+      className={clsx(
+        'text-preset-4-bold',
+        {
+          'text-green': isIncome,
+        },
+        {
+          'text-red': recurring,
+        }
+      )}
       aria-label={`Amount: ${transaction.amount}`}
     >
-      {transaction.amount}
+      {transaction.amount} $
     </span>
   );
 
@@ -47,7 +50,7 @@ const TransactionItem: React.FC<TransactionItemProps> = ({ transaction }) => {
           <li className='flex items-center justify-between w-full md:w-2/4'>
             <div className='flex items-center gap-6'>
               <img
-                src={transaction.icon}
+                src={transaction.image}
                 alt={`${transaction.name} avatar`}
                 className='rounded-full h-8 w-8'
               />

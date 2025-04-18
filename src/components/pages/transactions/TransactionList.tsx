@@ -1,47 +1,52 @@
-import React, { useMemo, useState, useEffect } from 'react';
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-import { TransactionsOBJ } from '../../../lib/transactions.ts';
+import React, { useMemo, useEffect } from 'react';
+import { Transaction } from '../../../lib/types/types';
+import { useTransactionStore } from '../../../lib/store/useTransactionStore.ts';
 import TransactionItem from './TransactionItem.tsx';
 import Pagination from '../../../lib/pagination/Pagination.tsx';
+import TransactionTable from '../../shared/TransactionTable.tsx';
+type TransactionListProps = {
+  transactions: Transaction[];
+};
 
-interface TransactionListProps {
-  transactions: TransactionsOBJ[];
-  sortBy: string;
-  sortByCategory: string;
-  searchFor: string;
-  setInputDisabled: (isDisabled: boolean) => void;
-}
-
-const TransactionList: React.FC<TransactionListProps> = ({
+export default function TransactionList({
   transactions,
-  sortBy,
-  sortByCategory,
-  searchFor,
-  setInputDisabled,
-}): React.JSX.Element => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const PageSize = 9;
+}: TransactionListProps) {
+  const {
+    currentSort,
+    currentCategory,
+    searchInput,
+    setDisabledSearch,
+    currentPage,
+    setCurrentPage,
+    stateTransactions,
+    setStateTransactions,
+    pageSize,
+  } = useTransactionStore();
+
+  useEffect(() => {
+    setStateTransactions(transactions);
+  }, [transactions, setStateTransactions]);
 
   useEffect(() => {
     if (currentPage > 1) {
-      setInputDisabled(true);
+      setDisabledSearch(true);
     } else {
-      setInputDisabled(false);
+      setDisabledSearch(false);
     }
-  }, [currentPage, setInputDisabled]);
+  }, [currentPage, setDisabledSearch]);
 
-  const filteredAndSortedTransactions: TransactionsOBJ[] = useMemo(() => {
-    let filtered = transactions.filter(obj =>
-      obj.name.toLowerCase().includes(searchFor.toLowerCase())
+  const filteredAndSortedTransactions: Transaction[] = useMemo(() => {
+    let filtered = stateTransactions.filter(obj =>
+      obj.name.toLowerCase().includes(searchInput.toLowerCase())
     );
 
-    if (sortByCategory !== 'all transactions') {
+    if (currentCategory !== 'all transactions') {
       filtered = filtered.filter(
-        transaction => transaction.category === sortByCategory
+        transaction => transaction.category.toLowerCase() === currentCategory
       );
     }
 
-    switch (sortBy) {
+    switch (currentSort) {
       case 'latest':
         return filtered.sort(
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -55,19 +60,19 @@ const TransactionList: React.FC<TransactionListProps> = ({
       case 'z-a':
         return filtered.sort((a, b) => b.name.localeCompare(a.name));
       case 'highest':
-        return filtered.sort((a, b) => b.usd - a.usd);
+        return filtered.sort((a, b) => b.amount - a.amount);
       case 'lowest':
-        return filtered.sort((a, b) => a.usd - b.usd);
+        return filtered.sort((a, b) => a.amount - b.amount);
       default:
         return filtered;
     }
-  }, [transactions, searchFor, sortBy, sortByCategory]);
+  }, [stateTransactions, searchInput, currentSort, currentCategory]);
 
   const currentTableData = useMemo(() => {
-    const firstPageIndex = (currentPage - 1) * PageSize;
-    const lastPageIndex = firstPageIndex + PageSize;
+    const firstPageIndex = (currentPage - 1) * pageSize;
+    const lastPageIndex = firstPageIndex + pageSize;
     return filteredAndSortedTransactions.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, filteredAndSortedTransactions]);
+  }, [currentPage, filteredAndSortedTransactions, pageSize]);
 
   return (
     <>
@@ -98,43 +103,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
         aria-label='Transaction list for desktop'
       >
         <article className='w-full'>
-          <TabGroup>
-            <TabList className='flex justify-between my-6 text-preset-5 text-grey-500'>
-              <Tab
-                className='w-2/4 text-left capitalize'
-                data-testid='recipient-tab'
-              >
-                recipient/sender
-              </Tab>
-              <Tab className='w-1/4 capitalize' data-testid='category-tab'>
-                category
-              </Tab>
-              <Tab className='w-1/4 capitalize' data-testid='date-tab'>
-                transaction date
-              </Tab>
-              <Tab className='w-1/4 capitalize' data-testid='amount-tab'>
-                amount
-              </Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                <ul aria-label='Transaction items'>
-                  {currentTableData.map((transaction, index) => (
-                    <React.Fragment key={transaction.id}>
-                      <li data-testid={`transaction-item-${transaction.id}`}>
-                        <TransactionItem transaction={transaction} />
-                      </li>
-                      {index !== currentTableData.length - 1 && (
-                        <li className='py-4' role='separator'>
-                          <hr className='w-full h-[1px] bg-grey-100' />
-                        </li>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </ul>
-              </TabPanel>
-            </TabPanels>
-          </TabGroup>
+          <TransactionTable currentTableData={currentTableData} />
         </article>
       </section>
 
@@ -145,13 +114,11 @@ const TransactionList: React.FC<TransactionListProps> = ({
         <Pagination
           currentPage={currentPage}
           totalCount={filteredAndSortedTransactions.length}
-          pageSize={PageSize}
+          pageSize={pageSize}
           siblingCount={1}
           onPageChange={(page: number) => setCurrentPage(page)}
         />
       </nav>
     </>
   );
-};
-
-export default TransactionList;
+}
