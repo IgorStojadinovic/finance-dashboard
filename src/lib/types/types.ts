@@ -55,10 +55,17 @@ export type Budget = {
   userId: string;
   user: User;
   category: string;
-  maximum: number;
+  spent: number;
+  spending_limit: number;
   theme: string;
-  limmit: number;
   hex: string;
+  progressBar: string;
+  latest_spending: {
+    name: string;
+    amount: number;
+    date: string;
+    image: string;
+  }[];
 };
 
 // Tip za model Pot
