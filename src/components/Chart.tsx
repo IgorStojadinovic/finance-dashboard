@@ -17,7 +17,7 @@ const Chart = ({
     labels: budgetsData.map(budget => budget.category),
     datasets: [
       {
-        data: budgetsData.map(budget => budget.maximum),
+        data: budgetsData.map(budget => budget.spent),
         backgroundColor: budgetsData.map(budget => budget.hex),
         borderWidth: 0,
       },
@@ -60,10 +60,10 @@ const Chart = ({
 
       <div className='absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]  text-center'>
         <h3 className='text-preset-1 '>
-          {budgetsData.reduce((acc, budget) => acc + budget.maximum, 0)}$
+          {budgetsData.reduce((acc, budget) => acc + budget.spent, 0)}$
         </h3>
         <span className='text-preset-5 '>
-          of {budgetsData.reduce((acc, budget) => acc + budget.limmit, 0)}$
+          of {budgetsData.reduce((acc, budget) => acc + budget.spending_limit, 0)}$
           limit
         </span>
       </div>
