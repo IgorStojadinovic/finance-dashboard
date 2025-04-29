@@ -1,34 +1,39 @@
-import { BudgetEntry } from '../../../lib/lits.ts';
 import { ChevronRightIcon } from '@heroicons/react/16/solid';
 import EditingModals from '../../modals/EditingModals.tsx';
 import React, { useEffect, useState } from 'react';
 import { useBudgetStore } from '../../../lib/store/useBudgetStore.ts';
+import { Budget } from '../../../lib/types/types.ts';
 
 interface BudgetProps {
-  item: BudgetEntry;
-  editBudget?: (budget: BudgetEntry) => void;
+  isLoading?: boolean;
+  budgetsData: Budget[];
 }
 
-const BudgetCard = () => {
-  const { budgets, handleEditBudget } = useBudgetStore();
+const BudgetCard = ({ budgetsData }: BudgetProps) => {
+  const { handleEditBudget } = useBudgetStore();
   return (
     <section className='flex flex-col xl:flex-row xl:flex-wrap gap-6'>
-      {budgets.map(item => (
+      {budgetsData.map(item => (
         <BudgetItem key={item.id} item={item} editBudget={handleEditBudget} />
       ))}
     </section>
   );
 };
 
-const BudgetItem: React.FC<BudgetProps> = ({ item, editBudget }) => {
+type BudgetItemProps = {
+  item: Budget;
+  editBudget: (budget: Budget) => void;
+};
+
+function BudgetItem({ item, editBudget }: BudgetItemProps) {
   const [barWidth, setBarWidth] = useState('0%');
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setBarWidth(item.bar);
+      setBarWidth(item.progressBar);
     }, 100);
     return () => clearTimeout(timeout);
-  }, [item.bar]);
+  }, [item.progressBar]);
 
   return (
     <section className='bg-white rounded-lg xl:w-full ' key={item.id}>
@@ -44,7 +49,7 @@ const BudgetItem: React.FC<BudgetProps> = ({ item, editBudget }) => {
           <EditingModals budget={item} editBudget={editBudget} />
         </section>
         <section className='flex flex-col gap-5'>
-          <h3>Maximum of ${item.max}</h3>
+          <h3>Maximum of ${item.spending_limit}</h3>
           <div className='w-full h-10 bg-beige-100 p-2 rounded-md'>
             <div
               className='h-full w-1/2 rounded-sm'
@@ -67,7 +72,7 @@ const BudgetItem: React.FC<BudgetProps> = ({ item, editBudget }) => {
               <div className='h-11 w-1 bg-beige-100 rounded-md'></div>
               <div>
                 <p className='text-preset-5 text-gray-500'>Free</p>
-                <p>${item.free}</p>
+                <p>${item.spending_limit - item.spent}</p>
               </div>
             </div>
           </section>
@@ -82,16 +87,21 @@ const BudgetItem: React.FC<BudgetProps> = ({ item, editBudget }) => {
               </div>
             </div>
             <ul>
-              {item.latest.map((latest, index) => {
+              {item?.latest_spending.map((latest, index) => {
+                const date = new Date(latest.date);
+                const formattedDate = `${date.getDate()} ${date.toLocaleString(
+                  'en-US',
+                  { month: 'short' }
+                )} ${date.getFullYear()}`;
                 return (
                   <li
-                    className='flex flex-col justify-between items-center text-preset-5'
+                    className='flex flex-col justify-between items-center text-preset-5 py-1'
                     key={index}
                   >
                     <div className='flex w-full justify-between items-center'>
                       <div className='flex items-center gap-4 '>
                         <img
-                          src={latest.icon}
+                          src={latest.image}
                           className='rounded-full h-8 w-8 md:flex hidden'
                           alt={latest.name}
                         />
@@ -102,12 +112,12 @@ const BudgetItem: React.FC<BudgetProps> = ({ item, editBudget }) => {
 
                       <div className='flex flex-col text-right'>
                         <span className='text-preset-5-bold '>
-                          {latest.price}
+                          -$ {latest.amount}.00
                         </span>
-                        <span className='text-grey-500'>{latest.date}</span>
+                        <span className='text-grey-500'>{formattedDate}</span>
                       </div>
                     </div>
-                    {index !== item.latest.length - 1 && (
+                    {index !== item.latest_spending.length - 1 && (
                       <div className='h-[1px] w-full bg-gray-300 mt-3'></div>
                     )}
                   </li>
@@ -119,6 +129,6 @@ const BudgetItem: React.FC<BudgetProps> = ({ item, editBudget }) => {
       </div>
     </section>
   );
-};
+}
 
 export default BudgetCard;
