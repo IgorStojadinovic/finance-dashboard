@@ -1,14 +1,14 @@
 import { create } from 'zustand';
-import { BudgetEntry, userBudget } from '../lits';
+import { Budget } from '../types/types';
 
 type BudgetStore = {
-  budgets: BudgetEntry[];
-  handleAddBudget: (newBudget: BudgetEntry) => void;
-  handleEditBudget: (updatedBudget: BudgetEntry) => void;
+  budgets: Budget[];
+  handleAddBudget: (newBudget: Budget) => void;
+  handleEditBudget: (updatedBudget: Budget) => void;
 };
 
 export const useBudgetStore = create<BudgetStore>(set => ({
-  budgets: userBudget,
+  budgets: [],
   handleAddBudget: newBudget =>
     set(state => ({ budgets: [newBudget, ...state.budgets] })),
   handleEditBudget: updatedBudget =>
