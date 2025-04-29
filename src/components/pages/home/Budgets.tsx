@@ -33,7 +33,11 @@ export default function Budgets({
           aria-label='Budget categories'
         >
           {firstFourBudgets.map(item => (
-            <BudgetItem key={item.category} {...item} />
+            <BudgetItem
+              key={item.category}
+              {...item}
+              maximum={item.spending_limit}
+            />
           ))}
         </ul>
       </section>
