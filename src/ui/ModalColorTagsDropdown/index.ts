@@ -1,0 +1,1 @@
+export { ModalColorTagsDropdown } from './ModalColorTagsDropdown';

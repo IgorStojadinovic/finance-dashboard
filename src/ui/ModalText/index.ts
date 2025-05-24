@@ -1,0 +1,1 @@
+export { ModalText } from './ModalText';
