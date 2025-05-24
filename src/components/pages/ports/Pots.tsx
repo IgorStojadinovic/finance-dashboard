@@ -1,14 +1,20 @@
-import React from 'react';
-import Modals from '../../modals/Modals';
-import { usePotStore } from '../../../lib/store/usePotStore';
+import { AddNewModal } from '../../modals/budget/AddNewModal';
+import { usePots } from '../../../lib/hooks/usePots';
+import { useUserId } from '../../../lib/hooks/useGetUser';
+import { Spinner } from '../../../ui/Spinner';
+import { usePotTransactionModalStore } from '../../../lib/store/useTransactionModalStore';
+import PotTransactionModal from '../../modals/ports/PotTransactionModal';
 import PotItem from './PotItem';
 
-/**
- * Renders the Pots page with a list of pots and a modal for adding a new pot
- */
 const Pots = () => {
-  const { handleAddPot } = usePotStore();
-  const potStorePots = usePotStore(state => state.pots);
+  const userId = useUserId();
+  const { data: pots } = usePots(userId);
+  const { open, modalType, currentPot, closeModal } =
+    usePotTransactionModalStore();
+
+  if (!pots) {
+    return <Spinner />;
+  }
 
   return (
     <main
@@ -21,16 +27,25 @@ const Pots = () => {
           <h1 id='pots-title' className='text-preset-1'>
             Pots
           </h1>
-          <Modals addNewPot={handleAddPot} />
+          <AddNewModal type='pot' />
         </header>
+        {currentPot && (
+          <PotTransactionModal
+            modalOpen={open}
+            currentPot={currentPot}
+            closeModal={closeModal}
+            barWidth={currentPot?.progressBar ?? '0%'}
+            modalType={modalType as 'add' | 'withdraw'}
+          />
+        )}
         <ul
           className='flex flex-col gap-6 xl:grid xl:grid-cols-2 xl:gap-6 xl:w-full'
           data-testid='pots-list'
           aria-label='Lista svih potova'
           role='list'
         >
-          {potStorePots.map(item => (
-            <PotItem key={item.id} item={item} />
+          {pots?.map(pot => (
+            <PotItem key={pot.id} pot={pot} />
           ))}
         </ul>
       </section>

@@ -1,16 +1,13 @@
+import { PotsProps } from './home.types';
 import SectionHeader from './SectionHeader';
 import TransactionsSection from './Transactions';
 import potIcon from '../../../assets/images/pot-icon.svg';
-import { Pot, Transaction } from '../../../lib/types/types';
+
 export default function Posts({
   potsData,
   transactionsData,
   isLoading,
-}: {
-  potsData: Pot[];
-  transactionsData: Transaction[];
-  isLoading: boolean;
-}) {
+}: PotsProps) {
   return (
     <section className='block-wapper flex flex-col xl:w-1/2 gap-6'>
       <section
