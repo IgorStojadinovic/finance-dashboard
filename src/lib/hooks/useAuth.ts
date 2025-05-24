@@ -1,6 +1,5 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { authApi, AuthResponse } from '../../api';
-import { ApiResponse } from '../types';
 
 interface RegisterData {
   name: string;
@@ -34,22 +33,22 @@ export const isAuthenticated = () => {
 };
 
 export const useRegister = (): UseMutationResult<
-  ApiResponse<AuthResponse>,
+  AuthResponse,
   Error,
   RegisterData
 > => {
   return useMutation({
     mutationFn: async (data: RegisterData) => {
-/* console.log('Attempting to register with data:', data); */
+      /* console.log('Attempting to register with data:', data); */
       const response = await authApi.register(data);
       /*console.log('Registration response:', response); */
       return response;
     },
     onSuccess: data => {
-     /*  console.log('Registration successful:', data); */
-      if (data.success && data.data) {
-        localStorage.setItem('token', data.data.token);
-        localStorage.setItem('user', JSON.stringify(data.data.user));
+      /*  console.log('Registration successful:', data); */
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
       }
     },
     onError: error => {
@@ -59,7 +58,7 @@ export const useRegister = (): UseMutationResult<
 };
 
 export const useLogin = (): UseMutationResult<
-  ApiResponse<AuthResponse>,
+  AuthResponse,
   Error,
   LoginData
 > => {
@@ -71,10 +70,10 @@ export const useLogin = (): UseMutationResult<
       return response;
     },
     onSuccess: data => {
-      if (data.success && data.data) {
-        localStorage.setItem('token', data.data.token);
-        localStorage.setItem('user', JSON.stringify(data.data.user));
-        console.log('Login successful', data.data.user.name);
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        console.log('Login successful', data.user.name);
       }
     },
     onError: error => {
@@ -84,11 +83,7 @@ export const useLogin = (): UseMutationResult<
   });
 };
 
-export const useLogout = (): UseMutationResult<
-  ApiResponse<void>,
-  Error,
-  void
-> => {
+export const useLogout = (): UseMutationResult<void, Error, void> => {
   return useMutation({
     mutationFn: async () => {
       const response = await authApi.logout();
