@@ -60,8 +60,14 @@ export const useCreateBudget = (budget: NewBudget) => {
 
   return useMutation<Budget, Error, NewBudget>({
     mutationFn: () => budgetsApi.create(budget),
-    onSuccess: () => {
+    onSuccess: newBudget => {
       console.log('Budget created successfully');
+      queryClient.setQueryData(
+        ['budgets', budget.userId],
+        (oldData: Budget[] = []) => {
+          return [newBudget, ...oldData];
+        }
+      );
       queryClient.invalidateQueries({ queryKey: ['budgets'] });
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
