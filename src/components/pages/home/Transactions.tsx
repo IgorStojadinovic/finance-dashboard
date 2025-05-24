@@ -1,13 +1,9 @@
-import React from 'react';
 import SectionHeader from './SectionHeader';
-import { Transaction } from '../../../lib/types/types';
+import { TransactionsProps, TransactionItemProps } from './home.types';
 
 export default function Transactions({
   transactionsData,
-}: {
-  transactionsData: Transaction[];
-}) {
-
+}: TransactionsProps) {
   const SlicedTransactionsData = transactionsData?.slice(0, 5);
   return (
     <section
@@ -38,12 +34,7 @@ function TransactionItem({
   amount,
   image,
   date,
-}: {
-  name: string;
-  amount: number;
-  image: string;
-  date: Date;
-}) {
+}: TransactionItemProps) {
   return (
     <li className='flex items-center justify-between'>
       <img

@@ -1,12 +1,10 @@
 import React, { useMemo, useEffect } from 'react';
 import { Transaction } from '../../../lib/types/types';
 import { useTransactionStore } from '../../../lib/store/useTransactionStore.ts';
+import { TransactionListProps } from './transactions.types';
 import TransactionItem from './TransactionItem.tsx';
 import Pagination from '../../../lib/pagination/Pagination.tsx';
-import TransactionTable from '../../shared/TransactionTable.tsx';
-type TransactionListProps = {
-  transactions: Transaction[];
-};
+import TransactionTable from './TransactionTable.tsx';
 
 export default function TransactionList({
   transactions,

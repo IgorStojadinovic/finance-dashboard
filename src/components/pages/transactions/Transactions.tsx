@@ -2,12 +2,12 @@ import { sortMenu, categoriesMenu } from '../../../lib/lits.ts';
 import { useTransactionStore } from '../../../lib/store/useTransactionStore.ts';
 import { useUserId } from '../../../lib/hooks/useGetUser.ts';
 import { useTransactions } from '../../../lib/hooks/useTransactions.ts';
+import { Heading } from '../../../ui/Heading';
+import { Spinner } from '../../../ui/Spinner';
+import { SearchBar } from '../../../ui/SearchBar';
+import { useEffect } from 'react';
 import TransactionList from './TransactionList.tsx';
 import TransactionDropdown from './TransactionDropdown.tsx';
-import Heading from '../../shared/Heading.tsx';
-import LoadingThreeDotsJumping from '../../loadingDots';
-import SearchBar from '../../shared/SearchBar.tsx';
-import { useEffect } from 'react';
 
 const Transactions = () => {
   const {
@@ -28,7 +28,7 @@ const Transactions = () => {
     setSearchInput('');
   }, []);
 
-  if (isLoading) return <LoadingThreeDotsJumping />;
+  if (isLoading) return <Spinner />;
 
   return (
     <main

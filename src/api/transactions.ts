@@ -31,4 +31,7 @@ export const transactionsApi = {
     fetch(`${API_BASE_URL}/transactions/${id}`, {
       method: 'DELETE',
     }).then(res => res.json()),
+
+  sortByCategory: (category: string): Promise<Transaction[]> =>
+    fetch(`${API_BASE_URL}/transactions/category/${category}`).then(res => res.json()), 
 };

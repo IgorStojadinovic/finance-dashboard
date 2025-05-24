@@ -1,17 +1,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { TransactionDropdownProps } from './transactions.types';
 import IconSort from '../../../assets/images/icon-sort.svg';
-
-type DropdownArray = {
-  name: string;
-  description: string;
-};
-
-type TransactionDropdownProps = {
-  currentSort: string;
-  setSort: (sort: string) => void;
-  dropdownarray: DropdownArray[];
-};
 
 export default function TransactionDropdown({
   currentSort,

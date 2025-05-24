@@ -1,11 +1,7 @@
-import React from 'react';
 import { clsx } from 'clsx';
-import { Transaction } from '../../../lib/types/types';
-interface TransactionItemProps {
-  transaction: Transaction;
-}
+import { TransactionItemProps } from './transactions.types';
 
-const TransactionItem: React.FC<TransactionItemProps> = ({ transaction }) => {
+const TransactionItem = ({ transaction }: TransactionItemProps) => {
   const isIncome = transaction.amount > 0;
   const recurring = transaction.recurring;
 
