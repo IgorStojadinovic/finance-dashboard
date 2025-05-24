@@ -49,17 +49,26 @@ export type RecurringBill = {
   color: string;
 };
 
+export type NewBudget = {
+  userId: string;
+  category: string;
+  spending_limit: number;
+  spent: number;
+  theme: string;
+  hex: string;
+};
+
 // Tip za model Budget
 export type Budget = {
-  id: string;
-  userId: string;
-  user: User;
+  id?: string;
+  userId?: string;
+  user?: User;
   category: string;
   spent: number;
   spending_limit: number;
   theme: string;
   hex: string;
-  progressBar: string;
+  progressBar?: string;
   latest_spending: {
     name: string;
     amount: number;
@@ -72,15 +81,27 @@ export type Budget = {
 export type Pot = {
   id: string;
   userId: string;
-  user: User;
+  user?: User;
   name: string;
   target: number;
   total: number;
   hex: string;
   theme: string;
+  progressBar: string;
 };
 
 export type Colors = {
   name: string;
+  hex: string;
+};
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
+
+export type ColorTag = {
+  theme: string;
   hex: string;
 };

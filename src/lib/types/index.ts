@@ -59,8 +59,3 @@ export interface RegisterData extends LoginCredentials {
   name: string;
 }
 
-export interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
-}
