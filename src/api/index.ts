@@ -4,15 +4,15 @@ import {
   Pot,
   Budget,
   RecurringBill,
-  ApiResponse,
-} from '../lib/types';
+  NewBudget,
+} from '../lib/types/types';
 
-//const API_BASE_URL = 'http://localhost:3000/api';
 const API_BASE_URL = import.meta.env.VITE_API_URL;
+/* const API_BASE_URL_DEV = import.meta.env.VITE_DEV_API_URL; */
 
 // Users API
 export const usersApi = {
-  getUser: async (id: number): Promise<ApiResponse<User>> => {
+  getUser: async (id: string): Promise<User> => {
     const res = await fetch(`${API_BASE_URL}/users/${id}`);
     if (!res.ok) {
       throw new Error('Failed to fetch user');
@@ -21,7 +21,7 @@ export const usersApi = {
     return data;
   },
 
-  updateUser: (id: string, data: Partial<User>): Promise<ApiResponse<User>> =>
+  updateUser: (id: string, data: Partial<User>): Promise<User> =>
     fetch(`${API_BASE_URL}/users/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -31,70 +31,75 @@ export const usersApi = {
 
 // Transactions API
 export const transactionsApi = {
-  getAll: (): Promise<ApiResponse<Transaction[]>> =>
+  getAll: (): Promise<Transaction[]> =>
     fetch(`${API_BASE_URL}/transactions`).then(res => res.json()),
 
-  getById: (id: string): Promise<ApiResponse<Transaction>> =>
+  getById: (id: string): Promise<Transaction> =>
     fetch(`${API_BASE_URL}/transactions/${id}`).then(res => res.json()),
 
   create: (
     data: Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>
-  ): Promise<ApiResponse<Transaction>> =>
+  ): Promise<Transaction> =>
     fetch(`${API_BASE_URL}/transactions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).then(res => res.json()),
 
-  update: (
-    id: string,
-    data: Partial<Transaction>
-  ): Promise<ApiResponse<Transaction>> =>
+  update: (id: string, data: Partial<Transaction>): Promise<Transaction> =>
     fetch(`${API_BASE_URL}/transactions/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).then(res => res.json()),
 
-  delete: (id: string): Promise<ApiResponse<void>> =>
+  delete: (id: string): Promise<void> =>
     fetch(`${API_BASE_URL}/transactions/${id}`, {
       method: 'DELETE',
     }).then(res => res.json()),
+
+  getTransactionsByUserId: (userId: string): Promise<Transaction[]> =>
+    fetch(`${API_BASE_URL}/transactions/user/${userId}`).then(res =>
+      res.json()
+    ),
+
+  sortByCategory: (category: string): Promise<Transaction[]> =>
+    fetch(`${API_BASE_URL}/transactions/category/${category}`).then(res =>
+      res.json()
+    ),
 };
 
 // Pots API
 export const potsApi = {
-  getAll: (): Promise<ApiResponse<Pot[]>> =>
+  getAll: (): Promise<Pot[]> =>
     fetch(`${API_BASE_URL}/pots`).then(res => res.json()),
 
-  getById: (id: string): Promise<ApiResponse<Pot>> =>
+  getById: (id: string): Promise<Pot> =>
     fetch(`${API_BASE_URL}/pots/${id}`).then(res => res.json()),
 
-  getUserPots: (userId: string): Promise<ApiResponse<Pot[]>> =>
+  getUserPots: (userId: string): Promise<Pot[]> =>
     fetch(`${API_BASE_URL}/pots/user/${userId}`).then(res => res.json()),
 
-  create: (
-    data: Omit<Pot, 'id' | 'createdAt' | 'updatedAt'>
-  ): Promise<ApiResponse<Pot>> =>
+  create: (data: Omit<Pot, 'id' | 'createdAt' | 'updatedAt'>): Promise<Pot> =>
     fetch(`${API_BASE_URL}/pots`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).then(res => res.json()),
 
-  update: (id: string, data: Partial<Pot>): Promise<ApiResponse<Pot>> =>
+  update: (id: string, data: Partial<Pot>): Promise<Pot> =>
     fetch(`${API_BASE_URL}/pots/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).then(res => res.json()),
 
-  delete: (id: string): Promise<ApiResponse<void>> =>
+  delete: (id: string): Promise<void> =>
     fetch(`${API_BASE_URL}/pots/${id}`, {
       method: 'DELETE',
     }).then(res => res.json()),
 
-  updateTotal: (id: string, amount: number): Promise<ApiResponse<Pot>> =>
+  updateTotal: (id: string, amount: number): Promise<Pot> =>
     fetch(`${API_BASE_URL}/pots/${id}/total`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -104,40 +109,35 @@ export const potsApi = {
 
 // Budgets API
 export const budgetsApi = {
-  getAll: (): Promise<ApiResponse<Budget[]>> =>
+  getAll: (): Promise<Budget[]> =>
     fetch(`${API_BASE_URL}/budgets`).then(res => res.json()),
 
-  getById: (id: string): Promise<ApiResponse<Budget>> =>
+  getById: (id: string): Promise<Budget> =>
     fetch(`${API_BASE_URL}/budgets/${id}`).then(res => res.json()),
 
-  getUserBudgets: (userId: string): Promise<ApiResponse<Budget[]>> =>
+  getUserBudgets: (userId: string): Promise<Budget[]> =>
     fetch(`${API_BASE_URL}/budgets/user/${userId}`).then(res => res.json()),
 
-  getByCategory: (
-    userId: string,
-    category: string
-  ): Promise<ApiResponse<Budget[]>> =>
-    fetch(`${API_BASE_URL}/budgets/user/${userId}/category/${category}`).then(
-      res => res.json()
-    ),
+  getByCategory: (userId: string, category: string): Promise<Budget[]> =>
+    fetch(
+      `${API_BASE_URL}/budgets/user/${userId}/category/${category}`
+    ).then(res => res.json()),
 
-  create: (
-    data: Omit<Budget, 'id' | 'createdAt' | 'updatedAt'>
-  ): Promise<ApiResponse<Budget>> =>
+  create: (data: NewBudget): Promise<Budget> =>
     fetch(`${API_BASE_URL}/budgets`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).then(res => res.json()),
 
-  update: (id: string, data: Partial<Budget>): Promise<ApiResponse<Budget>> =>
+  update: (id: string, data: Partial<Budget>): Promise<Budget> =>
     fetch(`${API_BASE_URL}/budgets/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).then(res => res.json()),
 
-  delete: (id: string): Promise<ApiResponse<void>> =>
+  delete: (id: string): Promise<void> =>
     fetch(`${API_BASE_URL}/budgets/${id}`, {
       method: 'DELETE',
     }).then(res => res.json()),
@@ -145,13 +145,13 @@ export const budgetsApi = {
 
 // Recurring Bills API
 export const recurringBillsApi = {
-  getAll: (): Promise<ApiResponse<RecurringBill[]>> =>
+  getAll: (): Promise<RecurringBill[]> =>
     fetch(`${API_BASE_URL}/recurring-bills`).then(res => res.json()),
 
-  getById: (id: string): Promise<ApiResponse<RecurringBill>> =>
+  getById: (id: string): Promise<RecurringBill> =>
     fetch(`${API_BASE_URL}/recurring-bills/${id}`).then(res => res.json()),
 
-  getUserBills: (userId: string): Promise<ApiResponse<RecurringBill[]>> =>
+  getUserBills: (userId: string): Promise<RecurringBill[]> =>
     fetch(`${API_BASE_URL}/recurring-bills/user/${userId}`).then(res =>
       res.json()
     ),
@@ -159,7 +159,7 @@ export const recurringBillsApi = {
   getByStatus: (
     userId: string,
     status: RecurringBill['status']
-  ): Promise<ApiResponse<RecurringBill[]>> =>
+  ): Promise<RecurringBill[]> =>
     fetch(
       `${API_BASE_URL}/recurring-bills/user/${userId}/status/${status}`
     ).then(res => res.json()),
@@ -168,31 +168,28 @@ export const recurringBillsApi = {
     userId: string,
     year: number,
     month: number
-  ): Promise<ApiResponse<RecurringBill[]>> =>
+  ): Promise<RecurringBill[]> =>
     fetch(
       `${API_BASE_URL}/recurring-bills/user/${userId}/month/${year}/${month}`
     ).then(res => res.json()),
 
   create: (
     data: Omit<RecurringBill, 'id' | 'createdAt' | 'updatedAt'>
-  ): Promise<ApiResponse<RecurringBill>> =>
+  ): Promise<RecurringBill> =>
     fetch(`${API_BASE_URL}/recurring-bills`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).then(res => res.json()),
 
-  update: (
-    id: string,
-    data: Partial<RecurringBill>
-  ): Promise<ApiResponse<RecurringBill>> =>
+  update: (id: string, data: Partial<RecurringBill>): Promise<RecurringBill> =>
     fetch(`${API_BASE_URL}/recurring-bills/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).then(res => res.json()),
 
-  delete: (id: string): Promise<ApiResponse<void>> =>
+  delete: (id: string): Promise<void> =>
     fetch(`${API_BASE_URL}/recurring-bills/${id}`, {
       method: 'DELETE',
     }).then(res => res.json()),

@@ -1,19 +1,20 @@
-import { ApiResponse, User } from '../lib/types';
+import { ApiResponse, User } from '../lib/types/types';
 
-export interface AuthResponse {
+export interface AuthResponse extends ApiResponse<User> {
   user: User;
   token: string;
 }
 
 //const API_BASE_URL = 'http://localhost:3000/api';
 const API_BASE_URL = import.meta.env.VITE_API_URL;
+//const API_DEV_URL = import.meta.env.VITE_DEV_API_URL;
 
 export const authApi = {
   register: async (data: {
     name: string;
     email: string;
     password: string;
-  }): Promise<ApiResponse<AuthResponse>> => {
+  }): Promise<AuthResponse> => {
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -32,7 +33,7 @@ export const authApi = {
   login: async (data: {
     email: string;
     password: string;
-  }): Promise<ApiResponse<AuthResponse>> => {
+  }): Promise<AuthResponse> => {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -48,7 +49,7 @@ export const authApi = {
     return json;
   },
 
-  logout: async (): Promise<ApiResponse<void>> => {
+  logout: async (): Promise<void> => {
     const token = localStorage.getItem('token');
     const response = await fetch(`${API_BASE_URL}/auth/logout`, {
       method: 'POST',

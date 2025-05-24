@@ -1,7 +1,7 @@
-import { User } from '../lib/types';
+import { User } from '../lib/types/types';
 
-//const API_BASE_URL = 'http://localhost:3000/api';
 const API_BASE_URL = import.meta.env.VITE_API_URL;
+//const API_DEV_URL = import.meta.env.VITE_API_DEV_URL;
 
 export const usersApi = {
   getAll: (): Promise<User[]> =>

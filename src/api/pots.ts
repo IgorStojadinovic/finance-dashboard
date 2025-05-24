@@ -11,7 +11,9 @@ export const potsApi = {
     fetch(`${API_BASE_URL}/pots/${id}`).then(res => res.json()),
 
   getUserPots: (userId: string): Promise<Pot[]> =>
-    fetch(`${API_BASE_URL}/pots/user/${userId}`).then(res => res.json()),
+    fetch(`${API_BASE_URL}/pots/user/${userId.toString()}`).then(res =>
+      res.json()
+    ),
 
   create: (data: Omit<Pot, 'id' | 'createdAt' | 'updatedAt'>) =>
     fetch(`${API_BASE_URL}/pots`, {
