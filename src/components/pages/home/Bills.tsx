@@ -1,18 +1,8 @@
-import React from 'react';
-import SectionHeader from './SectionHeader';
-import { RecurringBill } from '../../../lib/types/types';
 import { cn } from '../../../lib/utils';
+import { BillsProps, RecurringBillSummary } from './home.types';
+import SectionHeader from './SectionHeader';
 
-export default function Bills({
-  billsData,
-}: {
-  billsData: RecurringBill[] | undefined;
-}) {
-  /*  const billsData = [
-    { category: 'paid bills', amount: '$190', color: 'border-l-green' },
-    { category: 'total upcoming', amount: '$194.89', color: 'border-l-yellow' },
-    { category: 'due soon', amount: '$50.98', color: 'border-l-cayan' },
-  ]; */
+export default function Bills({ billsData }: BillsProps) {
   const SlicedBillsData = billsData?.slice(0, 3);
   return (
     <section
@@ -35,13 +25,9 @@ export default function Bills({
   );
 }
 
-type RecurringBillSummary = Pick<
-  RecurringBill,
-  'color' | 'category' | 'amount'
->;
-
 function BillItem({ category, amount, color }: RecurringBillSummary) {
-  const className = "bg-beige-100 py-5 px-4 rounded-lg flex justify-between border-l-4";
+  const className =
+    'bg-beige-100 py-5 px-4 rounded-lg flex justify-between border-l-4';
   return (
     <li
       className={cn(className, {

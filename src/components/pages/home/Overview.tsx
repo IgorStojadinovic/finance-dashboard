@@ -1,8 +1,4 @@
-import React from 'react';
-import { Balance } from '../../../lib/types/types';
-interface OverviewProps {
-  currentBalance: Balance[];
-}
+import { OverviewProps } from './home.types';
 
 export default function Overview({ currentBalance }: OverviewProps) {
   const balance = currentBalance[0];

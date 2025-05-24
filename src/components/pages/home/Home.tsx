@@ -1,17 +1,18 @@
-import React from 'react';
+import { useGetUser, useUserId } from '../../../lib/hooks/useGetUser';
+import { Spinner } from '../../../ui/Spinner';
 import Overview from './Overview';
 import Posts from './Posts';
 import Budgets from './Budgets';
 import Bills from './Bills';
-import { useGetUser, useUserId } from '../../../lib/hooks/useGetUser';
-import LoadingThreeDotsJumping from '../../loadingDots';
+
 const Home = () => {
   const userId = useUserId();
-  const { user } = useGetUser(userId);
+  const { user, isLoading } = useGetUser(userId);
 
   if (!user) {
-    return <LoadingThreeDotsJumping />;
+    return <Spinner />;
   }
+
   return (
     <main
       className='bg-beige-100 flex flex-col justify-between xl:flex-row xl:justify-normal xl:flex-1'
@@ -27,7 +28,7 @@ const Home = () => {
             transactionsData={user.transactions}
           />
           <section className='block-wapper flex flex-col xl:w-1/2 gap-6'>
-            <Budgets budgetsData={user.budgets} isLoading={false} />
+            <Budgets budgetsData={user.budgets} isLoading={isLoading} />
             <Bills billsData={user.recurringBills} />
           </section>
         </article>

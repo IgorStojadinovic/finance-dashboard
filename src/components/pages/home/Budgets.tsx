@@ -1,17 +1,9 @@
-import React from 'react';
-import Chart from '../../Chart';
+import { Chart } from '../../../ui/Chart';
+import { BudgetsProps, BudgetItemProps } from './home.types';
 import SectionHeader from './SectionHeader';
-import { Budget } from '../../../lib/types/types';
 
-export default function Budgets({
-  budgetsData,
-  isLoading,
-}: {
-  budgetsData: Budget[];
-  isLoading: boolean;
-}) {
-  const firstFourBudgets = budgetsData?.slice(0, 4);
-
+export default function Budgets({ budgetsData }: BudgetsProps) {
+  const firstFourBudgets = budgetsData?.slice(0, 6);
   return (
     <section
       className='bg-white rounded-lg py-6 px-5 flex flex-col gap-5 justify-between md:p-8 xl:flex-1'
@@ -25,11 +17,11 @@ export default function Budgets({
       />
       <section className='flex flex-col justify-center items-center md:flex-row xl:h-[200px]'>
         <figure className='flex justify-center md:w-3/5 xl:w-1/2'>
-          <Chart budgetsData={firstFourBudgets} isLoading={isLoading} />
+          <Chart budgetsData={firstFourBudgets} />
         </figure>
 
         <ul
-          className='grid grid-cols-2 gap-4 md:grid-cols-1 w-full'
+          className='grid grid-cols-2 gap-4  w-full'
           aria-label='Budget categories'
         >
           {firstFourBudgets.map(item => (
@@ -45,15 +37,7 @@ export default function Budgets({
   );
 }
 
-function BudgetItem({
-  category,
-  maximum,
-  hex,
-}: {
-  category: string;
-  maximum: number;
-  hex: string;
-}) {
+function BudgetItem({ category, maximum, hex }: BudgetItemProps) {
   return (
     <li className='flex gap-4'>
       <span
