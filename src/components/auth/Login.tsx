@@ -16,7 +16,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { mutate: login, isPending, error } = useLogin();
   const [formData, setFormData] = useState<Data>({
-    email: 'Test_user@gmail.com',
+    email: 'Testuser@gmail.com',
     password: 'JohnDoe84266+',
   });
   const [showPassword, setShowPassword] = useState(false);
