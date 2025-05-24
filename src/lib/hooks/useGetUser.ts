@@ -11,9 +11,8 @@ export const useGetUser = (id: string) => {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
-    
   });
-  
+
   return { user: data, isLoading, error };
 };
 

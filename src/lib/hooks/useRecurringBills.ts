@@ -1,17 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { recurringBillsApi } from '../../api';
-import { RecurringBill } from '../../lib/types';
-import { ApiResponse } from '../../lib/types';
+import { RecurringBill } from '../types/types';
 
 export const useRecurringBills = () => {
-  return useQuery<ApiResponse<RecurringBill[]>, Error>({
+  return useQuery<RecurringBill[], Error>({
     queryKey: ['recurringBills'],
     queryFn: recurringBillsApi.getAll,
   });
 };
 
 export const useRecurringBill = (id: string) => {
-  return useQuery<ApiResponse<RecurringBill>, Error>({
+  return useQuery<RecurringBill, Error>({
     queryKey: ['recurringBill', id],
     queryFn: () => recurringBillsApi.getById(id),
     enabled: !!id,
@@ -19,7 +18,7 @@ export const useRecurringBill = (id: string) => {
 };
 
 export const useUserRecurringBills = (userId: string) => {
-  return useQuery<ApiResponse<RecurringBill[]>, Error>({
+  return useQuery<RecurringBill[], Error>({
     queryKey: ['userRecurringBills', userId],
     queryFn: () => recurringBillsApi.getUserBills(userId),
     enabled: !!userId,
@@ -30,7 +29,7 @@ export const useRecurringBillsByStatus = (
   userId: string,
   status: RecurringBill['status']
 ) => {
-  return useQuery<ApiResponse<RecurringBill[]>, Error>({
+  return useQuery<RecurringBill[], Error>({
     queryKey: ['recurringBillsByStatus', userId, status],
     queryFn: () => recurringBillsApi.getByStatus(userId, status),
     enabled: !!userId && !!status,
@@ -42,7 +41,7 @@ export const useRecurringBillsByMonth = (
   year: number,
   month: number
 ) => {
-  return useQuery<ApiResponse<RecurringBill[]>, Error>({
+  return useQuery<RecurringBill[], Error>({
     queryKey: ['recurringBillsByMonth', userId, year, month],
     queryFn: () => recurringBillsApi.getByMonth(userId, year, month),
     enabled: !!userId && !!year && !!month,
@@ -53,7 +52,7 @@ export const useCreateRecurringBill = () => {
   const queryClient = useQueryClient();
 
   return useMutation<
-    ApiResponse<RecurringBill>,
+    RecurringBill,
     Error,
     Omit<RecurringBill, 'id' | 'createdAt' | 'updatedAt'>
   >({
@@ -68,7 +67,7 @@ export const useUpdateRecurringBill = () => {
   const queryClient = useQueryClient();
 
   return useMutation<
-    ApiResponse<RecurringBill>,
+    RecurringBill,
     Error,
     { id: string; data: Partial<RecurringBill> }
   >({
@@ -83,7 +82,7 @@ export const useUpdateRecurringBill = () => {
 export const useDeleteRecurringBill = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<ApiResponse<void>, Error, string>({
+  return useMutation<void, Error, string>({
     mutationFn: recurringBillsApi.delete,
     onSuccess: (_, id) => {
       queryClient.invalidateQueries({ queryKey: ['recurringBills'] });
