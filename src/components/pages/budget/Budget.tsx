@@ -1,27 +1,36 @@
-import Modals from '../../modals/Modals.tsx';
-import BudgetCard from './BudgetCard.tsx';
-import BudgetChart from './BudgetChart.tsx';
-import { useBudgetStore } from '../../../lib/store/useBudgetStore.ts';
-import { useUserId } from '../../../lib/hooks/useGetUser';
+import { BudgetCard } from './BudgetCard.tsx';
+import { BudgetChart } from './BudgetChart.tsx';
 import { useBudgets } from '../../../lib/hooks/useBudgets';
+import { useBudgetStore } from '../../../lib/store/useBudgetStore.ts';
+import { useEffect } from 'react';
+import { useUserId } from '../../../lib/hooks/useGetUser.ts';
+import { PageHeder } from '../../../ui';
+import { AddNewModal } from '../../modals/budget/AddNewModal.tsx';
+import { Spinner } from '../../../ui/Spinner';
+
 const Budget = () => {
   const userId = useUserId();
-  const { handleAddBudget } = useBudgetStore();
-  const { data: budgets, isLoading } = useBudgets(userId);
+  const { data: budgets } = useBudgets(userId);
+  const { setStoreBudgets } = useBudgetStore();
+
+  useEffect(() => {
+    if (budgets) {
+      setStoreBudgets(() => budgets);
+    }
+  }, [budgets, setStoreBudgets]);
+
+  if (!budgets) {
+    return <Spinner />;
+  }
 
   return (
     <div className='xl:flex-1 bg-beige-100 py-6 px-4 md:px-10 md:py-8 relative overflow-y-scroll'>
-      <div className='flex justify-between items-center'>
-        <h1 className='text-preset-1'>Budgets</h1>
-        <Modals addNewBudget={handleAddBudget} />
-      </div>
+      <PageHeder title='Budgets'>
+        <AddNewModal type='budget' />
+      </PageHeder>
       <section className='flex flex-col mt-8 gap-6 xl:flex-row  '>
-        {budgets && (
-          <>
-            <BudgetChart budgetsData={budgets} isLoading={isLoading} />
-            <BudgetCard budgetsData={budgets} isLoading={isLoading} />
-          </>
-        )}
+        <BudgetChart />
+        <BudgetCard />
       </section>
     </div>
   );
