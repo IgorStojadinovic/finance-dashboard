@@ -1,9 +1,11 @@
 import { ApiResponse, User } from '../lib/types/types';
 
-export interface AuthResponse extends ApiResponse<User> {
-  user: User;
+interface AuthData {
   token: string;
+  user: User;
 }
+
+export type AuthResponse = ApiResponse<AuthData>;
 
 //const API_BASE_URL = 'http://localhost:3000/api';
 const API_BASE_URL = import.meta.env.VITE_API_URL;

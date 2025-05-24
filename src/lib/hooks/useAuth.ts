@@ -21,11 +21,9 @@ export const isAuthenticated = () => {
   }
 
   try {
-    // Proveri da li je user validan JSON
     JSON.parse(user);
     return true;
   } catch {
-    // Ako nije validan JSON, ukloni podatke
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     return false;
@@ -46,9 +44,9 @@ export const useRegister = (): UseMutationResult<
     },
     onSuccess: data => {
       /*  console.log('Registration successful:', data); */
-      if (data.success) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+      if (data.success && data.data?.user) {
+        localStorage.setItem('token', data.data.token);
+        localStorage.setItem('user', JSON.stringify(data.data.user));
       }
     },
     onError: error => {
@@ -70,10 +68,16 @@ export const useLogin = (): UseMutationResult<
       return response;
     },
     onSuccess: data => {
-      if (data.success) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        console.log('Login successful', data.user.name);
+      console.log('Login response data:', data);
+      if (data.success && data.data?.user) {
+        localStorage.setItem('token', data.data.token);
+        localStorage.setItem('user', JSON.stringify(data.data.user));
+        console.log('Login successful', data.data.user.name);
+      } else {
+        console.error('Login response missing required data:', {
+          success: data.success,
+          hasUser: !!data.data?.user,
+        });
       }
     },
     onError: error => {
