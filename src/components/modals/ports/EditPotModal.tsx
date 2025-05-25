@@ -16,7 +16,7 @@ import { Pot } from '../../../lib/types/types';
 import { useState } from 'react';
 import { useUpdatePot } from '../../../lib/hooks/usePots';
 import { usePotStore } from '../../../lib/store/usePotStore';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 type EditBudgetModalProps = {
   isEditModalOpen: boolean;

@@ -8,7 +8,7 @@ import {
   ModalColorTagsDropdown,
 } from '../../../ui';
 import { useBudgetStore } from '../../../lib/store/useBudgetStore';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCreateBudget } from '../../../lib/hooks/useBudgets';
 import { CreatePot, NewBudget } from '../../../lib/types/types';
 import { useUserId } from '../../../lib/hooks/useGetUser';
@@ -136,8 +136,19 @@ const AddNewModal = ({ type }: AddNewModalProps) => {
   });
 
   const { mutate: createBudget } = useCreateBudget();
-  const { mutate: createPot, isPending: isCreatingPot } = useCreatePot();
-
+  const { mutate: createPot } = useCreatePot();
+  const resetNewPot = () => {
+    setNewPot({
+      userId,
+      name: '',
+      target: 0,
+      total: 0,
+      progressBar: '0%',
+      theme: DEFAULT_COLOR.theme,
+      hex: DEFAULT_COLOR.hex,
+    });
+    setCurrentPotName('');
+  };
   const handleSetNewPot = (updates: Partial<CreatePot>) => {
     setNewPot(prevPot => {
       const updatedPot = {
@@ -148,6 +159,12 @@ const AddNewModal = ({ type }: AddNewModalProps) => {
       return updatedPot;
     });
   };
+  useEffect(() => {
+    if (addBudgetModalOpen && type === 'pot') {
+      resetNewPot();
+    }
+    // eslint-disable-next-line
+  }, [addBudgetModalOpen, type]);
 
   const handleCreateItem = () => {
     if (type === 'budget') {
@@ -172,21 +189,12 @@ const AddNewModal = ({ type }: AddNewModalProps) => {
         toast.error('Color is required');
         return;
       }
-      console.log('AddNewModal - newPot state before create:', newPot);
-      console.log('AddNewModal - newPot hex value:', newPot.hex);
-      console.log('AddNewModal - newPot type:', typeof newPot.hex);
-      console.log('AddNewModal - newPot stringified:', JSON.stringify(newPot));
-      console.log('Final pot data before create:', newPot);
-
-      if (isCreatingPot) {
-        return; // Prevent multiple submissions
-      }
 
       createPot(newPot, {
         onSuccess: () => {
           toast.success('Pot created successfully');
           setAddBudgetModalOpen(false);
-          setCurrentPotName('');
+          resetNewPot();
         },
         onError: () => toast.error('Failed to create pot'),
       });
@@ -199,7 +207,10 @@ const AddNewModal = ({ type }: AddNewModalProps) => {
         open={addBudgetModalOpen}
         as='div'
         className='relative z-50 focus:outline-none'
-        onClose={() => setAddBudgetModalOpen(false)}
+        onClose={() => {
+          setAddBudgetModalOpen(false);
+          resetNewPot();
+        }}
       >
         <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
           <div className='flex min-h-full items-center justify-center p-4'>
@@ -211,7 +222,10 @@ const AddNewModal = ({ type }: AddNewModalProps) => {
                 Add New {type === 'budget' ? 'Budget' : 'Pot'}
                 <XCircleIcon
                   className='size-8 cursor-pointer text-grey-500'
-                  onClick={() => setAddBudgetModalOpen(false)}
+                  onClick={() => {
+                    setAddBudgetModalOpen(false);
+                    resetNewPot();
+                  }}
                 />
               </DialogTitle>
               <p className='text-preset-4 text-grey-500'>
