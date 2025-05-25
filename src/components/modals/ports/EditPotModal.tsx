@@ -44,7 +44,7 @@ const EditPotModal = ({
   const { setStorePots, pots } = usePotStore();
 
   const handleUpdatePot = () => {
-    if (newPot.target < parseFloat(newPot.progressBar)) {
+    if (newPot.target < parseFloat(newPot.progressBar || '0')) {
       toast.error('Target cannot be less than progress bar');
       return;
     }
