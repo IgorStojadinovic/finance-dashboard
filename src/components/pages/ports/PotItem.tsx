@@ -12,17 +12,15 @@ export default function PotItem({ pot }: PotItemProps) {
   };
 
   return (
-    <>
-      <li className='bg-white rounded-lg xl:col-span-1' id={pot.id}>
-        <article className='flex flex-col gap-5 px-5 py-6 md:p-6'>
-          <PotHeader pot={pot} />
-          <PotDetails pot={pot} />
-          <PotActions
-            onAdd={() => handleModalOpen('add')}
-            onWithdraw={() => handleModalOpen('withdraw')}
-          />
-        </article>
-      </li>
-    </>
+    <li className='bg-white rounded-lg xl:col-span-1' key={pot.id}>
+      <article className='flex flex-col gap-5 px-5 py-6 md:p-6'>
+        <PotHeader pot={pot} />
+        <PotDetails pot={pot} />
+        <PotActions
+          onAdd={() => handleModalOpen('add')}
+          onWithdraw={() => handleModalOpen('withdraw')}
+        />
+      </article>
+    </li>
   );
 }

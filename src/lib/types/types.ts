@@ -87,7 +87,7 @@ export type Pot = {
   total: number;
   hex: string;
   theme: string;
-  progressBar: string;
+  progressBar?: string;
 };
 
 export type Colors = {
@@ -104,4 +104,14 @@ export interface ApiResponse<T> {
 export type ColorTag = {
   theme: string;
   hex: string;
+};
+
+export type CreatePot = {
+  userId: string;
+  name: string;
+  target: number;
+  total: number;
+  hex: string;
+  theme: string;
+  progressBar?: string;
 };

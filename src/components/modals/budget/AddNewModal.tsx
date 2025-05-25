@@ -1,6 +1,4 @@
-import { Button, DialogTitle } from '@headlessui/react';
-import { DialogPanel } from '@headlessui/react';
-import { Dialog } from '@headlessui/react';
+import { Button, DialogTitle, DialogPanel, Dialog } from '@headlessui/react';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import {
   ModalField,
@@ -12,43 +10,187 @@ import {
 import { useBudgetStore } from '../../../lib/store/useBudgetStore';
 import { useState } from 'react';
 import { useCreateBudget } from '../../../lib/hooks/useBudgets';
-import { NewBudget } from '../../../lib/types/types';
+import { CreatePot, NewBudget } from '../../../lib/types/types';
 import { useUserId } from '../../../lib/hooks/useGetUser';
 import toast, { Toaster } from 'react-hot-toast';
+import { useCreatePot } from '../../../lib/hooks/usePots';
 
 type AddNewModalProps = {
   type: 'budget' | 'pot';
 };
 
+const DEFAULT_COLOR = {
+  theme: 'green',
+  hex: '#277C78',
+};
+
+const BudgetForm = ({
+  newBudget,
+  setNewBudget,
+  currentCategory,
+  setCurrentCategory,
+}: {
+  newBudget: NewBudget;
+  setNewBudget: (budget: NewBudget) => void;
+  currentCategory: string;
+  setCurrentCategory: (category: string) => void;
+}) => (
+  <>
+    <ModalField label='Budget Category'>
+      <ModalCategoryMenu
+        currentCategory={currentCategory}
+        setCurrentCategory={category => {
+          setCurrentCategory(category);
+          setNewBudget({ ...newBudget, category });
+        }}
+      />
+    </ModalField>
+    <ModalField label='Spending Limit'>
+      <ModalInput
+        placeholder='$ e.g 2000'
+        onChange={e => {
+          setNewBudget({
+            ...newBudget,
+            spending_limit: Number(e.target.value),
+          });
+        }}
+      />
+    </ModalField>
+    <ModalField label='Spent'>
+      <ModalInput
+        placeholder='$ e.g 2000'
+        onChange={e => {
+          setNewBudget({
+            ...newBudget,
+            spent: Number(e.target.value),
+          });
+        }}
+      />
+    </ModalField>
+  </>
+);
+
+const PotForm = ({
+  newPot,
+  setNewPot,
+  currentPotName,
+  setCurrentPotName,
+}: {
+  newPot: CreatePot;
+  setNewPot: (pot: CreatePot) => void;
+  currentPotName: string;
+  setCurrentPotName: (name: string) => void;
+}) => (
+  <>
+    <ModalField label='Pot Name'>
+      <ModalInput
+        value={currentPotName}
+        type='text'
+        placeholder='Enter pot name'
+        onChange={e => {
+          setNewPot({
+            ...newPot,
+            name: e.target.value,
+          });
+          setCurrentPotName(e.target.value);
+        }}
+      />
+    </ModalField>
+    <ModalField label='Target Amount'>
+      <ModalInput
+        placeholder='$ e.g 2000'
+        onChange={e => {
+          setNewPot({
+            ...newPot,
+            target: Number(e.target.value),
+          });
+        }}
+      />
+    </ModalField>
+  </>
+);
+
 const AddNewModal = ({ type }: AddNewModalProps) => {
   const { addBudgetModalOpen, setAddBudgetModalOpen } = useBudgetStore();
   const userId = useUserId();
   const [currentCategory, setCurrentCategory] = useState('All Transactions');
+  const [currentPotName, setCurrentPotName] = useState('');
 
   const [newBudget, setNewBudget] = useState<NewBudget>({
-    userId: userId,
+    userId,
     category: currentCategory,
     spending_limit: 0,
     spent: 0,
-    theme: 'green',
-    hex: '#277C78',
+    theme: DEFAULT_COLOR.theme,
+    hex: DEFAULT_COLOR.hex,
   });
-  const { mutate: createBudget } = useCreateBudget(newBudget);
 
-  const handleCreateBudget = () => {
-    const { spending_limit, spent, category } = newBudget;
-    if (spending_limit < spent) {
-      toast.error('Spending limit cannot be less than spent amount');
-      return;
-    }
-    if (category === 'All Transactions') {
-      toast.error('Choose a category');
-      return;
-    }
+  const [newPot, setNewPot] = useState<CreatePot>({
+    userId,
+    name: '',
+    target: 0,
+    total: 0,
+    progressBar: '0%',
+    theme: DEFAULT_COLOR.theme,
+    hex: DEFAULT_COLOR.hex,
+  });
 
-    createBudget(newBudget);
-    setAddBudgetModalOpen(false);
-    setCurrentCategory('All Transactions');
+  const { mutate: createBudget } = useCreateBudget();
+  const { mutate: createPot, isPending: isCreatingPot } = useCreatePot();
+
+  const handleSetNewPot = (updates: Partial<CreatePot>) => {
+    setNewPot(prevPot => {
+      const updatedPot = {
+        ...prevPot,
+        ...updates,
+      };
+      console.log('Updated pot state:', updatedPot);
+      return updatedPot;
+    });
+  };
+
+  const handleCreateItem = () => {
+    if (type === 'budget') {
+      const { spending_limit, spent, category } = newBudget;
+      if (spending_limit < spent) {
+        toast.error('Spending limit cannot be less than spent amount');
+        return;
+      }
+      if (category === 'All Transactions') {
+        toast.error('Choose a category');
+        return;
+      }
+      createBudget(newBudget);
+      setAddBudgetModalOpen(false);
+      setCurrentCategory('All Transactions');
+    } else {
+      if (!newPot.name.trim()) {
+        toast.error('Enter pot name');
+        return;
+      }
+      if (!newPot.hex) {
+        toast.error('Color is required');
+        return;
+      }
+      console.log('AddNewModal - newPot state before create:', newPot);
+      console.log('AddNewModal - newPot hex value:', newPot.hex);
+      console.log('AddNewModal - newPot type:', typeof newPot.hex);
+      console.log('AddNewModal - newPot stringified:', JSON.stringify(newPot));
+      console.log('Final pot data before create:', newPot);
+
+      if (isCreatingPot) {
+        return; // Prevent multiple submissions
+      }
+
+      createPot(newPot, {
+        onSuccess: () => {
+          toast.success('Pot created successfully');
+          setAddBudgetModalOpen(false);
+          setCurrentPotName('');
+        },
+        onError: () => toast.error('Failed to create pot'),
+      });
+    }
   };
 
   const RenderModal = (
@@ -66,7 +208,7 @@ const AddNewModal = ({ type }: AddNewModalProps) => {
                 as='h3'
                 className='text-preset-2 flex justify-between items-center'
               >
-                Add New Budget
+                Add New {type === 'budget' ? 'Budget' : 'Pot'}
                 <XCircleIcon
                   className='size-8 cursor-pointer text-grey-500'
                   onClick={() => setAddBudgetModalOpen(false)}
@@ -76,54 +218,41 @@ const AddNewModal = ({ type }: AddNewModalProps) => {
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
               </p>
               <div className='flex flex-col gap-4'>
-                <ModalField label='Budget Category'>
-                  <ModalCategoryMenu
+                {type === 'budget' ? (
+                  <BudgetForm
+                    newBudget={newBudget}
+                    setNewBudget={setNewBudget}
                     currentCategory={currentCategory}
-                    setCurrentCategory={category => {
-                      setCurrentCategory(category);
-                      setNewBudget({ ...newBudget, category });
-                    }}
+                    setCurrentCategory={setCurrentCategory}
                   />
-                </ModalField>
-                <ModalField label='Spending Limit'>
-                  <ModalInput
-                    placeholder='$ e.g 2000'
-                    onChange={e => {
-                      setNewBudget({
-                        ...newBudget,
-                        spending_limit: Number(e.target.value),
-                      });
-                    }}
+                ) : (
+                  <PotForm
+                    newPot={newPot}
+                    setNewPot={setNewPot}
+                    currentPotName={currentPotName}
+                    setCurrentPotName={setCurrentPotName}
                   />
-                </ModalField>
-                <ModalField label='Spent'>
-                  <ModalInput
-                    placeholder='$ e.g 2000'
-                    onChange={e => {
-                      setNewBudget({
-                        ...newBudget,
-                        spent: Number(e.target.value),
-                      });
-                    }}
-                  />
-                </ModalField>
+                )}
                 <ModalField label='Color Tag'>
                   <ModalColorTagsDropdown
-                    item={newBudget}
-                    setCurrentColorTag={(theme, hex) =>
-                      setNewBudget({ ...newBudget, theme, hex })
-                    }
+                    item={type === 'budget' ? newBudget : newPot}
+                    setCurrentColorTag={(theme, hex) => {
+                      console.log('Setting color tag:', { theme, hex });
+                      if (type === 'budget') {
+                        setNewBudget({ ...newBudget, theme, hex });
+                      } else {
+                        handleSetNewPot({ theme, hex });
+                      }
+                    }}
                   />
                 </ModalField>
               </div>
               <div className='mt-4'>
                 <Button
                   className='flex w-full justify-center items-center h-14 gap-2 rounded-md bg-grey-900 py-1.5 px-4 text-preset-4-bold text-white focus:outline-none'
-                  onClick={() => {
-                    handleCreateBudget();
-                  }}
+                  onClick={handleCreateItem}
                 >
-                  Add Budget
+                  Add {type === 'budget' ? 'Budget' : 'Pot'}
                 </Button>
               </div>
             </DialogPanel>
@@ -133,13 +262,11 @@ const AddNewModal = ({ type }: AddNewModalProps) => {
       <Toaster position='bottom-right' reverseOrder={false} />
     </ModalBackdrop>
   );
+
   return (
     <>
       <Button
-        onClick={() => {
-          setAddBudgetModalOpen(true);
-          setCurrentCategory('All Transactions');
-        }}
+        onClick={() => setAddBudgetModalOpen(true)}
         className='rounded-md text-preset-4-bold bg-grey-900 p-4 font-medium text-white'
       >
         Add New {type === 'budget' ? 'Budget' : 'Pot'}

@@ -55,15 +55,15 @@ export const useDeleteBudget = (budget: Budget) => {
   });
 };
 
-export const useCreateBudget = (budget: NewBudget) => {
+export const useCreateBudget = () => {
   const queryClient = useQueryClient();
 
   return useMutation<Budget, Error, NewBudget>({
-    mutationFn: () => budgetsApi.create(budget),
+    mutationFn: (budget: NewBudget) => budgetsApi.create(budget),
     onSuccess: newBudget => {
       console.log('Budget created successfully');
       queryClient.setQueryData(
-        ['budgets', budget.userId],
+        ['budgets', newBudget.userId],
         (oldData: Budget[] = []) => {
           return [newBudget, ...oldData];
         }

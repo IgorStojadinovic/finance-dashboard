@@ -1,10 +1,10 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import { colorTags } from './data';
-import { Budget, NewBudget, Pot } from '../../lib/types/types';
+import { Budget, NewBudget, Pot, CreatePot } from '../../lib/types/types';
 
 type ModalColorTagsDropdownProps = {
-  item: Budget | NewBudget | Pot;
+  item: Budget | NewBudget | Pot | CreatePot;
   setCurrentColorTag: (theme: string, hex: string) => void;
 };
 
